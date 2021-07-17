@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "543851223400",
+    "project_id": "animaliano-f782f",
+    "storage_bucket": "animaliano-f782f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:543851223400:android:c76bd5d39baa0f442ddedd",
+        "android_client_info": {
+          "package_name": "com.artificialbyte.animaliano"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "543851223400-bf3tmgff6sl9quon1qvsci20ai0g6tl9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA33-q3Ti_4bXIRooY2RU5cXpGkXVm70Xg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "543851223400-bf3tmgff6sl9quon1qvsci20ai0g6tl9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

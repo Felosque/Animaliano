@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/background"
     tools:context=".AuthActivity">
 
     <LinearLayout
@@ -54,6 +55,7 @@
                 android:onClick="signIn_onClick"
                 android:text="LOGIN" />
         </LinearLayout>
-    </LinearLayout>
 
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

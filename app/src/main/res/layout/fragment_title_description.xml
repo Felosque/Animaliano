@@ -5,18 +5,18 @@
     android:orientation="vertical">
 
         <TextView
-            android:id="@+id/txtTitle"
+            android:id="@+id/txtTitle_fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:text="Espera..."
+            android:text=""
             android:textColor="@color/text"
             android:textSize="40dp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/txtDescription"
+            android:id="@+id/txtDescription_fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="30dp"
@@ -24,6 +24,6 @@
             android:layout_marginTop="5dp"
             android:textSize="20dp"
             android:textColor="@color/text"
-            android:text="Antes de que te registres, necesitamos saber que tipo de usuario eres, selecciona tu categoria:" />
+            android:text="" />
 
 </LinearLayout>

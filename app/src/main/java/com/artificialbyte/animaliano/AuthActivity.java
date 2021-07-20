@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,8 +21,11 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class AuthActivity extends AppCompatActivity {
 
-    private TextView email;
-    private TextView password;
+    private LinearLayout step_0, step_1, step_2, step_3, title_desc;
+
+    private int state_step = 0;
+    private TextView txtTitle, txtDescription;
+    private TextView email, password;
     private Button btnSignUp;
     private Button btnSignIn;
 
@@ -30,10 +35,75 @@ public class AuthActivity extends AppCompatActivity {
         setContentView(R.layout.activity_auth);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
-        email = findViewById(R.id.txtMail);
+        step_0 = findViewById(R.id.step_0);
+        step_1 = findViewById(R.id.step_1);
+        step_2 = findViewById(R.id.step_2);
+        step_3 = findViewById(R.id.step_3);
+
+        txtTitle = findViewById(R.id.txtTitle_fragment);
+        txtDescription = findViewById(R.id.txtDescription_fragment);
+        title_desc = findViewById(R.id.title_description);
+        /*email = findViewById(R.id.txtMail);
         password = findViewById(R.id.txtPassword);
         btnSignIn = findViewById(R.id.btnLogin);
-        btnSignUp = findViewById(R.id.btnRegister);
+        btnSignUp = findViewById(R.id.btnRegister);*/
+    }
+
+    public void nextStep_Click(View view){
+        switch (state_step){
+            case 0:
+                step_0.setVisibility(View.GONE);
+                step_1.setVisibility(View.VISIBLE);
+                title_desc.setVisibility(View.VISIBLE);
+                txtTitle.setText(getResources().getString(R.string.title_step_1));
+                txtDescription.setText(getResources().getString(R.string.description_step_1));
+                break;
+            case 1:
+                title_desc.setVisibility(View.GONE);
+                step_1.setVisibility(View.GONE);
+                step_2.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                title_desc.setVisibility(View.VISIBLE);
+                txtTitle.setText(getResources().getString(R.string.title_step_3));
+                txtDescription.setText(getResources().getString(R.string.description_step_3));
+                step_2.setVisibility(View.GONE);
+                step_3.setVisibility(View.VISIBLE);
+                break;
+            default:
+                step_0.setVisibility(View.VISIBLE);
+                title_desc.setVisibility(View.GONE);
+                step_1.setVisibility(View.GONE);
+                step_2.setVisibility(View.GONE);
+                step_3.setVisibility(View.GONE);
+                state_step = -1;
+                break;
+        }
+        state_step++;
+    }
+
+    public void backStep_Click(View view){
+        switch (state_step){
+            case 1:
+                step_0.setVisibility(View.VISIBLE);
+                step_1.setVisibility(View.GONE);
+                break;
+            case 2:
+                step_1.setVisibility(View.VISIBLE);
+                step_2.setVisibility(View.GONE);
+                break;
+            case 3:
+                step_2.setVisibility(View.VISIBLE);
+                step_3.setVisibility(View.GONE);
+                break;
+            default:
+                step_0.setVisibility(View.VISIBLE);
+                step_1.setVisibility(View.GONE);
+                step_2.setVisibility(View.GONE);
+                step_3.setVisibility(View.GONE);
+                break;
+        }
+        state_step--;
     }
 
     public void signUp_onClick(View view) {

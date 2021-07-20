@@ -16,13 +16,6 @@
             android:layout_gravity="center"
             android:orientation="vertical">
 
-            <include
-                android:id="@+id/title_description"
-                layout="@layout/fragment_title_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -37,7 +30,7 @@
                     android:background="@drawable/button_border"
                     android:insetTop="15dp"
                     android:insetBottom="15dp"
-                    android:onClick="signIn_onClick"
+                    android:onClick="nextStep_Click"
                     android:text="Soy un usuario, busco animales, para ayudarles a ser felices."
                     android:textColor="@color/text" />
 
@@ -47,10 +40,24 @@
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="30dp"
                     android:layout_marginEnd="30dp"
+                    android:onClick="nextStep_Click"
                     android:background="@drawable/button_border"
                     android:insetTop="15dp"
                     android:insetBottom="15dp"
                     android:text="Soy una fundación, ayudo a los animales a encontrar hogar."
+                    android:textColor="@color/text" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:onClick="backStep_Click"
+                    android:background="@drawable/button_border"
+                    android:insetTop="15dp"
+                    android:insetBottom="15dp"
+                    android:text="Volver Atrás"
                     android:textColor="@color/text" />
             </LinearLayout>
 

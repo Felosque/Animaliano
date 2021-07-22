@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp">
+
+            <EditText
+                android:id="@+id/txtName_Register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#00FFFFFF"
+                android:textColor="@color/text"
+                android:textColorHint="@color/text"
+                android:ems="10"
+                android:textSize="20dp"
+                android:hint="Nombre"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp">
+
+            <EditText
+                android:id="@+id/txtNit_Register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#00FFFFFF"
+                android:textColor="@color/text"
+                android:textColorHint="@color/text"
+                android:ems="10"
+                android:textSize="20dp"
+                android:hint="NIT"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp">
+
+            <EditText
+                android:id="@+id/txtDesc_Register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#00FFFFFF"
+                android:textColor="@color/text"
+                android:textColorHint="@color/text"
+                android:ems="10"
+                android:textSize="20dp"
+                android:hint="Descripción"
+                android:inputType="textMultiLine" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="30dp"
+                android:onClick="nextStep_Click"
+                android:background="@drawable/button_border"
+                android:insetTop="15dp"
+                android:insetBottom="15dp"
+                android:text="Siguiente"
+                android:textColor="@color/text" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:onClick="backStep_Click"
+                android:background="@drawable/button_border"
+                android:insetTop="15dp"
+                android:insetBottom="15dp"
+                android:text="Volver Atrás"
+                android:textColor="@color/text" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

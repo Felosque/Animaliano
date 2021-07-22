@@ -4,5 +4,10 @@
     <string name="description_step_1">Antes de registrarte necesitamos saber qué tipo de usuario eres, selecciona tu categoria.</string>
     <string name="title_step_3">Eres una fundación</string>
     <string name="description_step_3">La seguridad es lo primero, elige una cuenta de correo y una contraseña para tu fundación.</string>
+    <string name="title_step_4">Eres una fundación</string>
+    <string name="description_step_4">Queremos conocerte mejor, rellena los siguientes datos, ayudará a que todos confiemos en ti.</string>
+    <string name="title_step_5">Eres una fundación</string>
+    <string name="description_step_5">Sabemos un poco sobre tí, pero queremos las personas confiamos más en las fundaciones con imagen, sube el logo de tu fundación:</string>
+    <string name="title_step_resume">¡Genial, ya casi!</string>
 
 </resources>

@@ -22,7 +22,7 @@
             android:id="@+id/txtTitle_Register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="REGISTRO"
+            android:text="INGRESAR"
             android:textAlignment="center"
             android:textColor="@color/text"
             android:textSize="30dp"
@@ -34,51 +34,52 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/btEmail"
+                android:id="@+id/btEmail_login"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:onClick="nextStep_Click"
-                android:text="Registrarse con correo"
+                android:onClick="loginNextStep"
+                android:text="Ingresar con correo"
                 android:textColor="@color/text"
                 android:background="@drawable/button_border"
                 android:drawableLeft="@mipmap/mail_logo" />
 
             <Button
-                android:id="@+id/btGmail"
+                android:id="@+id/btGmail_login"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Registrarse con Gmail"
+                android:text="Ingresar con Gmail"
                 android:textColor="@color/text"
                 android:background="@drawable/button_border"
                 android:drawableLeft="@mipmap/gmail_logo" />
 
             <Button
-                android:id="@+id/bSearch"
+                android:id="@+id/bSearch_login"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Registrarse con Facebook"
+                android:text="Ingresar con Facebook"
                 android:textColor="@color/text"
                 android:background="@drawable/button_border"
                 android:drawableLeft="@mipmap/fb_logo" />
 
             <Button
+                android:id="@+id/btBack_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="30dp"
-                android:onClick="backStep_Click"
                 android:background="@drawable/button_border"
                 android:insetTop="15dp"
+                android:onClick="loginBackStep"
                 android:insetBottom="15dp"
                 android:text="Volver atrás"
                 android:textColor="@color/text" />

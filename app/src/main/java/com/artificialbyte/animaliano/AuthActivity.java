@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -24,16 +26,21 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class AuthActivity extends AppCompatActivity implements CRUDUser {
 
     private LinearLayout step_0, step_1, step_2, step_3, step_4, step_5, step_resume, title_desc, frag_loading;
-
+    private LinearLayout step_login, step_mail_login;
     private int state_step = 0;
+    private int login_step = 0;
     private TextView txtTitle, txtDescription;
     private TextView email, password, password_2; //Step 3
     private TextView name, nit, description; //Step 4
     private ImageView img; //step 5
+    private TextView name_resume, mail_resume, description_resume; //Resume
+    private ImageView img_resume; //Resume
+    private TextView email_login, password_login;
     private User userToRegister;
 
     @Override
@@ -42,17 +49,21 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
         setContentView(R.layout.activity_auth);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
-        UserService.setCrudUser(this);
+        frag_loading = findViewById(R.id.frag_loading);
+        frag_loading.setVisibility(View.VISIBLE);
 
+        UserService.setCrudUser(this);
         userToRegister = new User();
         step_0 = findViewById(R.id.step_0);
+        step_0.setVisibility(View.GONE);
         step_1 = findViewById(R.id.step_1);
         step_2 = findViewById(R.id.step_2);
         step_3 = findViewById(R.id.step_3);
         step_4 = findViewById(R.id.step_4);
         step_5 = findViewById(R.id.step_5);
         step_resume = findViewById(R.id.step_resume);
-        frag_loading = findViewById(R.id.frag_loading);
+        step_login = findViewById(R.id.step_login);
+        step_mail_login = findViewById(R.id.step_mail_login);
 
         txtTitle = findViewById(R.id.txtTitle_fragment);
         txtDescription = findViewById(R.id.txtDescription_fragment);
@@ -67,6 +78,27 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
         description = findViewById(R.id.txtDesc_Register);
         //Step 5
         img = findViewById(R.id.imageView);
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGallery();
+            }
+        });
+        img_resume = findViewById(R.id.img_resume);
+        //Step Resume
+        mail_resume = findViewById(R.id.txtMailResume);
+        description_resume = findViewById(R.id.txtDesc_Resume);
+        name_resume = findViewById(R.id.txtName_Resume);
+        //Login
+        email_login = findViewById(R.id.txtMail_Login);
+        password_login = findViewById(R.id.txtPassword_Login);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            showHome(user.getEmail(), ProviderType.BASIC);
+        }
+        step_0.setVisibility(View.VISIBLE);
+        frag_loading.setVisibility(View.GONE);
     }
 
     public void nextStep_Click(View view){
@@ -75,6 +107,8 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
                 step_0.setVisibility(View.GONE);
                 step_1.setVisibility(View.VISIBLE);
                 title_desc.setVisibility(View.VISIBLE);
+                txtTitle.setVisibility(View.VISIBLE);
+                txtDescription.setVisibility(View.VISIBLE);
                 txtTitle.setText(getResources().getString(R.string.title_step_1));
                 txtDescription.setText(getResources().getString(R.string.description_step_1));
                 break;
@@ -85,24 +119,28 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
                 break;
             case 2:
                 title_desc.setVisibility(View.VISIBLE);
+                txtTitle.setVisibility(View.VISIBLE);
+                txtDescription.setVisibility(View.VISIBLE);
                 txtTitle.setText(getResources().getString(R.string.title_step_3));
                 txtDescription.setText(getResources().getString(R.string.description_step_3));
                 step_2.setVisibility(View.GONE);
                 step_3.setVisibility(View.VISIBLE);
                 break;
             case 3:
-                signUp_onClick(getWindow().getDecorView().getRootView());
-                InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(email.getWindowToken(), 0);
                 title_desc.setVisibility(View.GONE);
                 step_3.setVisibility(View.GONE);
                 frag_loading.setVisibility(View.VISIBLE);
+                signUp_onClick(getWindow().getDecorView().getRootView());
+                InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(email.getWindowToken(), 0);
                 return;
             case 4:
                 userToRegister.setName(name.getText().toString());
                 userToRegister.setNit(nit.getText().toString());
                 userToRegister.setDescription(description.getText().toString());
                 title_desc.setVisibility(View.VISIBLE);
+                txtTitle.setVisibility(View.VISIBLE);
+                txtDescription.setVisibility(View.VISIBLE);
                 txtTitle.setText(getResources().getString(R.string.title_step_5));
                 txtDescription.setText(getResources().getString(R.string.description_step_5));
                 step_4.setVisibility(View.GONE);
@@ -111,12 +149,19 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
             case 5:
                 title_desc.setVisibility(View.VISIBLE);
                 txtTitle.setText(getResources().getString(R.string.title_step_resume));
+                txtTitle.setVisibility(View.VISIBLE);
                 txtDescription.setVisibility(View.GONE);
                 step_5.setVisibility(View.GONE);
+                name_resume.setText(userToRegister.getName());
+                description_resume.setText(userToRegister.getDescription());
+                mail_resume.setText(userToRegister.getEmail());
+                img_resume.setImageURI(imageUri);
                 step_resume.setVisibility(View.VISIBLE);
                 break;
             case 6:
-                //Falta registro en colección
+                title_desc.setVisibility(View.GONE);
+                step_resume.setVisibility(View.GONE);
+                frag_loading.setVisibility(View.VISIBLE);
                 UserService.addUser(userToRegister);
                 break;
             default:
@@ -140,9 +185,12 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
             case 1:
                 step_0.setVisibility(View.VISIBLE);
                 step_1.setVisibility(View.GONE);
+                txtTitle.setVisibility(View.GONE);
+                txtDescription.setVisibility(View.GONE);
                 break;
             case 2:
-
+                step_2.setVisibility(View.GONE);
+                step_1.setVisibility(View.VISIBLE);
                 break;
             case 3:
                 state_step = -2;
@@ -180,10 +228,10 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
         String emailF = this.email.getText().toString();
         String passwordF = this.password.getText().toString();
         if (!password.getText().toString().equals(password_2.getText().toString())){
-            Toast.makeText(this, "Las contraseñas deben ser iguales", Toast.LENGTH_LONG).show();
             frag_loading.setVisibility(View.GONE);
             step_3.setVisibility(View.VISIBLE);
             title_desc.setVisibility(View.VISIBLE);
+            Toast.makeText(this, "Las contraseñas deben ser iguales", Toast.LENGTH_LONG).show();
             return;
         }
         if (!emailF.isEmpty() && !passwordF.isEmpty()){
@@ -213,13 +261,18 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
             });
         }else {
             Toast.makeText(this, "Debe completar el formulario", Toast.LENGTH_LONG).show();
+            frag_loading.setVisibility(View.GONE);
+            step_3.setVisibility(View.VISIBLE);
+            title_desc.setVisibility(View.VISIBLE);
         }
     }
 
     public void signIn_onClick(View view) {
-        String email = this.email.getText().toString();
-        String password = this.password.getText().toString();
+        String email = this.email_login.getText().toString();
+        String password = this.password_login.getText().toString();
         if (!email.isEmpty() && !password.isEmpty()){
+            step_mail_login.setVisibility(View.GONE);
+            frag_loading.setVisibility(View.VISIBLE);
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
@@ -228,6 +281,8 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
                                 String emailUser = task.getResult().getUser().getEmail();
                                 showHome(emailUser, ProviderType.BASIC);
                             } else {
+                                frag_loading.setVisibility(View.GONE);
+                                step_mail_login.setVisibility(View.VISIBLE);
                                 showError(task.getException().getMessage());
                             }
                         }
@@ -235,6 +290,45 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
         }else {
             Toast.makeText(this, "Debe completar el formulario", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void loginNextStep(View view){
+        switch (login_step) {
+            case 0:
+                step_0.setVisibility(View.GONE);
+                step_login.setVisibility(View.VISIBLE);
+                break;
+            case 1:
+                step_login.setVisibility(View.GONE);
+                step_mail_login.setVisibility(View.VISIBLE);
+                break;
+            default:
+                step_0.setVisibility(View.VISIBLE);
+                step_login.setVisibility(View.GONE);
+                step_mail_login.setVisibility(View.GONE);
+                login_step = 0;
+                break;
+        }
+        login_step++;
+    }
+
+    public void loginBackStep(View view){
+        switch (login_step) {
+            case 1:
+                step_login.setVisibility(View.GONE);
+                step_0.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                step_login.setVisibility(View.VISIBLE);
+                step_mail_login.setVisibility(View.GONE);
+                break;
+            default:
+                step_0.setVisibility(View.VISIBLE);
+                step_login.setVisibility(View.GONE);
+                step_mail_login.setVisibility(View.GONE);
+                break;
+        }
+        login_step--;
     }
 
     public void showError(String message){
@@ -249,12 +343,32 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
         finish();
     }
 
+    private static final int PICK_IMAGE = 100;
+    Uri imageUri;
+    private void openGallery(){
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, PICK_IMAGE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
+            imageUri = data.getData();
+            img.setImageURI(imageUri);
+        }
+    }
+
+
     @Override
     public void isRegister(Boolean e) {
         if(e){
-            showHome("prueba@gmail.com", ProviderType.BASIC);
+            showHome(userToRegister.getEmail(), ProviderType.BASIC);
         }else {
             Toast.makeText(this, "Ocurrió un problema a la hora de actualizar datos", Toast.LENGTH_LONG).show();
+            step_resume.setVisibility(View.VISIBLE);
+            frag_loading.setVisibility(View.GONE);
+            title_desc.setVisibility(View.VISIBLE);
         }
     }
 

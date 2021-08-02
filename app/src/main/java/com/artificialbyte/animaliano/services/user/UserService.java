@@ -24,7 +24,7 @@ public class UserService {
 
     public static void addUser(User user) {
         try {
-            db.collection("users")
+            db.collection("userProfile")
                     .document(String.valueOf(user.getUid()))
                     .set(user)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {

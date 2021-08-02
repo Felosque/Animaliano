@@ -10,6 +10,8 @@ public class User {
     private String description;
     private Long birthDate;
     private String profilePhoto;
+    private String city_municipality;
+    private String department;
     private String nit;
     private boolean verify;
     private String userType;
@@ -26,6 +28,8 @@ public class User {
         this.nit = "none";
         this.verify = true;
         this.userType = "none";
+        this.city_municipality = "Ibagué";
+        this.department = "Tolima";
     }
 
     public User(String description, String userType, String uid, String name, String lastName, String userName, String email, Long birthDate, String profilePhoto, String nit, boolean verify) {

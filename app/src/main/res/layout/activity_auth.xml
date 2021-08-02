@@ -69,6 +69,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="30dp"
                         android:layout_marginEnd="30dp"
+                        android:onClick="loginNextStep"
                         android:background="@drawable/button_border"
                         android:insetTop="15dp"
                         android:insetBottom="15dp"
@@ -152,6 +153,8 @@
 
             <LinearLayout
                 android:id="@+id/step_resume"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
@@ -170,6 +173,30 @@
                 android:orientation="vertical">
                 <include
                     layout="@layout/fragment_loading"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/step_login"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:orientation="vertical">
+                <include
+                    layout="@layout/fragment_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/step_mail_login"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:orientation="vertical">
+                <include
+                    layout="@layout/fragment_mail_login"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
             </LinearLayout>

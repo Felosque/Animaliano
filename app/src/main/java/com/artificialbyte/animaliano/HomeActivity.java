@@ -21,6 +21,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        setTitle(R.string.home);
 
         mail = findViewById(R.id.txtCorreo);
         message = findViewById(R.id.txtNombre);

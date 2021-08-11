@@ -12,24 +12,26 @@
         android:layout_gravity="center">
 
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageView"
             android:layout_width="300dp"
             android:layout_height="300dp"
+            app:civ_border_width="3dp"
+            app:civ_border_color="@color/text"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
             android:src="@mipmap/logo"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="10dp">
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="30dp"
                 android:layout_marginEnd="30dp"
                 android:onClick="nextStep_Click"
                 android:background="@drawable/button_border"

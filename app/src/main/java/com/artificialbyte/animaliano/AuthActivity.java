@@ -1,32 +1,33 @@
 package com.artificialbyte.animaliano;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.artificialbyte.animaliano.dto.user.User;
 import com.artificialbyte.animaliano.interfaces.CRUDUser;
 import com.artificialbyte.animaliano.services.user.UserService;
+import com.artificialbyte.animaliano.utils.Constans;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AuthActivity extends AppCompatActivity implements CRUDUser {
 
@@ -37,9 +38,9 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
     private TextView txtTitle, txtDescription;
     private TextView email, password, password_2; //Step 3
     private TextView name, nit, description; //Step 4
-    private ImageView img; //step 5
+    private CircleImageView img; //step 5
     private TextView name_resume, mail_resume, description_resume; //Resume
-    private ImageView img_resume; //Resume
+    private CircleImageView img_resume; //Resume
     private TextView email_login, password_login;
     private User userToRegister;
 
@@ -121,7 +122,11 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
                 title_desc.setVisibility(View.VISIBLE);
                 txtTitle.setVisibility(View.VISIBLE);
                 txtDescription.setVisibility(View.VISIBLE);
-                txtTitle.setText(getResources().getString(R.string.title_step_3));
+                if (userToRegister.getRol().equals(Constans.USER_ROL_FUNDATION)){
+                    txtTitle.setText(getResources().getString(R.string.title_fund));
+                }else{
+                    txtTitle.setText(getResources().getString(R.string.title_user));
+                }
                 txtDescription.setText(getResources().getString(R.string.description_step_3));
                 step_2.setVisibility(View.GONE);
                 step_3.setVisibility(View.VISIBLE);
@@ -141,8 +146,13 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
                 title_desc.setVisibility(View.VISIBLE);
                 txtTitle.setVisibility(View.VISIBLE);
                 txtDescription.setVisibility(View.VISIBLE);
-                txtTitle.setText(getResources().getString(R.string.title_step_5));
-                txtDescription.setText(getResources().getString(R.string.description_step_5));
+                if (userToRegister.getRol().equals(Constans.USER_ROL_FUNDATION)){
+                    txtTitle.setText(getResources().getString(R.string.title_fund));
+                    txtDescription.setText(getResources().getString(R.string.description_step_5_fund));
+                }else{
+                    txtTitle.setText(getResources().getString(R.string.title_user));
+                    txtDescription.setText(getResources().getString(R.string.description_step_5_user));
+                }
                 step_4.setVisibility(View.GONE);
                 step_5.setVisibility(View.VISIBLE);
                 break;
@@ -234,6 +244,7 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
             Toast.makeText(this, "Las contraseñas deben ser iguales", Toast.LENGTH_LONG).show();
             return;
         }
+
         if (!emailF.isEmpty() && !passwordF.isEmpty()){
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailF, passwordF)
             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -245,7 +256,11 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
                         userToRegister.setEmail(emailF);
                         userToRegister.setUid(task.getResult().getUser().getUid());
                         title_desc.setVisibility(View.VISIBLE);
-                        txtTitle.setText(getResources().getString(R.string.title_step_4));
+                        if (userToRegister.getRol().equals(Constans.USER_ROL_FUNDATION)){
+                            txtTitle.setText(getResources().getString(R.string.title_fund));
+                        }else{
+                            txtTitle.setText(getResources().getString(R.string.title_user));
+                        }
                         txtDescription.setText(getResources().getString(R.string.description_step_4));
                         step_3.setVisibility(View.GONE);
                         step_4.setVisibility(View.VISIBLE);
@@ -359,17 +374,34 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
         }
     }
 
-
+    int uploadProcess = 0;
     @Override
     public void isRegister(Boolean e) {
         if(e){
-            showHome(userToRegister.getEmail(), ProviderType.BASIC);
+            uploadProcess++;
+            if(uploadProcess == 1){
+                img_resume.setDrawingCacheEnabled(true);
+                img_resume.buildDrawingCache();
+                Bitmap bitmap = ((BitmapDrawable) img_resume.getDrawable()).getBitmap();
+                UserService.updateUserProfileImage(userToRegister.getUid(), bitmap);
+            }else if (uploadProcess == 2){
+                showHome(userToRegister.getEmail(), ProviderType.BASIC);
+            }
         }else {
             Toast.makeText(this, "Ocurrió un problema a la hora de actualizar datos", Toast.LENGTH_LONG).show();
             step_resume.setVisibility(View.VISIBLE);
             frag_loading.setVisibility(View.GONE);
             title_desc.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void setUserFundation(View view){
+        userToRegister.setRol(Constans.USER_ROL_FUNDATION);
+        nextStep_Click(view);
+    }
+    public void setUserDefault(View view){
+        userToRegister.setRol(Constans.USER_ROL_DEFAULT);
+        nextStep_Click(view);
     }
 
     @Override

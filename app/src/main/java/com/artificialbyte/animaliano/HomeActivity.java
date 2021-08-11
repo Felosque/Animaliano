@@ -2,6 +2,7 @@ package com.artificialbyte.animaliano;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -36,7 +37,9 @@ public class HomeActivity extends AppCompatActivity {
 
     public void btnLogOut_click(View view){
         FirebaseAuth.getInstance().signOut();
-        onBackPressed();
+        Intent authActivity = new Intent(this, AuthActivity.class);
+        startActivity(authActivity);
+        finish();
     }
 
 

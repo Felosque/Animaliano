@@ -8,42 +8,68 @@ public class User {
     private String userName = "none";
     private String email;
     private String description;
-    private Long birthDate;
+    private String birthDate;
     private String profilePhoto;
     private String city_municipality;
     private String department;
     private String nit;
     private boolean verify;
-    private String userType;
+    private String rol;
+    private String phone;
 
     public User() {
-        this.uid = "none";
-        this.name = "none";
-        this.lastName = "none";
-        this.userName = "none";
-        this.email = "none";
-        this.description = "none";
-        this.birthDate = Long.parseLong("102313245");
-        this.profilePhoto = "none";
-        this.nit = "none";
-        this.verify = true;
-        this.userType = "none";
-        this.city_municipality = "Ibagué";
-        this.department = "Tolima";
+        this.uid = "";
+        this.name = "";
+        this.lastName = "";
+        this.userName = "";
+        this.email = "";
+        this.description = "";
+        this.birthDate = "";
+        this.profilePhoto = "";
+        this.nit = "";
+        this.verify = false;
+        this.rol = null;
+        this.city_municipality = "";
+        this.department = "";
+        this.phone = null;
     }
 
-    public User(String description, String userType, String uid, String name, String lastName, String userName, String email, Long birthDate, String profilePhoto, String nit, boolean verify) {
+    public User(String description, String rol, String uid, String name, String lastName, String userName, String email, Long birthDate, String profilePhoto, String nit, boolean verify) {
         this.uid = uid;
         this.name = name;
         this.lastName = lastName;
         this.userName = userName;
         this.email = email;
         this.description = description;
-        this.birthDate = birthDate;
+        this.birthDate = "";
         this.profilePhoto = profilePhoto;
         this.nit = nit;
         this.verify = verify;
-        this.userType = userType;
+        this.rol = rol;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getCity_municipality() {
+        return city_municipality;
+    }
+
+    public void setCity_municipality(String city_municipality) {
+        this.city_municipality = city_municipality;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
     public String getDescription() {
@@ -54,12 +80,12 @@ public class User {
         this.description = description;
     }
 
-    public String getUserType() {
-        return userType;
+    public String getRol() {
+        return rol;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 
     public String getUid() {
@@ -102,11 +128,11 @@ public class User {
         this.email = email;
     }
 
-    public Long getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Long birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 

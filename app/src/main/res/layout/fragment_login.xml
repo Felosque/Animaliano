@@ -59,7 +59,7 @@
                 android:drawableLeft="@mipmap/gmail_logo" />
 
             <Button
-                android:id="@+id/bSearch_login"
+                android:id="@+id/login_button_fb"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"

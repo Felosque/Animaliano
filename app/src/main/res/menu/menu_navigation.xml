@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mainItem"
+        android:icon="@mipmap/logo"
+        android:title="Inicio" />
+
+    <item
+        android:id="@+id/adopItem"
+        android:icon="@mipmap/logo"
+        android:title="Adopción" />
+
+    <item
+        android:id="@+id/donateItem"
+        android:icon="@mipmap/logo"
+        android:title="Donaciones" />
+
+
+    <item
+        android:id="@+id/alertItem"
+        android:icon="@mipmap/logo"
+        android:title="Alerta Animal" />
+
+    <item
+        android:id="@+id/profileItem"
+        android:icon="@mipmap/logo"
+        android:title="Perfil" />
+
+</menu>

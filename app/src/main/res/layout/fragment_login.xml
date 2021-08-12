@@ -52,6 +52,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
                 android:layout_width="fill_parent"
+                android:onClick="signInGoogle_onClick"
                 android:layout_height="wrap_content"
                 android:text="Ingresar con Gmail"
                 android:textColor="@color/text"

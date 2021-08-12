@@ -6,11 +6,13 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Layout;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
@@ -21,11 +23,18 @@ import com.artificialbyte.animaliano.dto.user.User;
 import com.artificialbyte.animaliano.interfaces.CRUDUser;
 import com.artificialbyte.animaliano.services.user.UserService;
 import com.artificialbyte.animaliano.utils.Constans;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -43,6 +52,7 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
     private CircleImageView img_resume; //Resume
     private TextView email_login, password_login;
     private User userToRegister;
+    private LinearLayout authLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +65,8 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
 
         UserService.setCrudUser(this);
         userToRegister = new User();
+        googleRegister = false;
+
         step_0 = findViewById(R.id.step_0);
         step_0.setVisibility(View.GONE);
         step_1 = findViewById(R.id.step_1);
@@ -93,13 +105,26 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
         //Login
         email_login = findViewById(R.id.txtMail_Login);
         password_login = findViewById(R.id.txtPassword_Login);
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            showHome(user.getEmail(), ProviderType.BASIC);
-        }
+        authLayout = findViewById(R.id.authLayout);
         step_0.setVisibility(View.VISIBLE);
         frag_loading.setVisibility(View.GONE);
+
+        setup();
+    }
+
+    public void setup(){
+        /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            showHome(user.getEmail(), ProviderType.BASIC);
+        }*/
+        SharedPreferences pref = getSharedPreferences(getString(R.string.pref_file), Context.MODE_PRIVATE);
+        String email = pref.getString("email", null);
+        String provider = pref.getString("provider", null);
+
+        if (email != null && provider != null){
+            authLayout.setVisibility(View.GONE);
+            showHome(email, ProviderType.valueOf(provider));
+        }
     }
 
     public void nextStep_Click(View view){
@@ -282,6 +307,21 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
         }
     }
 
+    public void signUpGoogle_onClick(View view){
+        googleRegister = true;
+        signInGoogle_onClick(view);
+    }
+
+    public void signInGoogle_onClick(View view){
+        GoogleSignInOptions googleConf =
+                new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(getString(R.string.default_web_client_id))
+                        .requestEmail().build();
+        GoogleSignInClient googleClient = GoogleSignIn.getClient(this, googleConf);
+        googleClient.signOut();
+        startActivityForResult(googleClient.getSignInIntent(), Constans.GOOGLE_SIGN_IN);
+    }
+
     public void signIn_onClick(View view) {
         String email = this.email_login.getText().toString();
         String password = this.password_login.getText().toString();
@@ -358,19 +398,50 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
         finish();
     }
 
-    private static final int PICK_IMAGE = 100;
+
     Uri imageUri;
     private void openGallery(){
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(gallery, PICK_IMAGE);
+        startActivityForResult(gallery, Constans.PICK_IMAGE);
     }
 
+    boolean googleRegister = false;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
+        if (resultCode == RESULT_OK && requestCode == Constans.PICK_IMAGE) {
             imageUri = data.getData();
             img.setImageURI(imageUri);
+        }
+        if (requestCode == Constans.GOOGLE_SIGN_IN){
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult();
+                if (account != null) {
+                    AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+                    FirebaseAuth.getInstance().signInWithCredential(credential)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        if(googleRegister){
+                                            userToRegister.setUid(task.getResult().getUser().getUid());
+                                            userToRegister.setName(task.getResult().getUser().getDisplayName());
+                                            userToRegister.setPhone(task.getResult().getUser().getPhoneNumber());
+                                            userToRegister.setDescription("Registrado con Google");
+                                        }else {
+                                            String emailUser = task.getResult().getUser().getEmail();
+                                            showHome(emailUser, ProviderType.GOOGLE);
+                                        }
+                                    } else {
+                                        showError(task.getException().getMessage());
+                                    }
+                                }
+                            });
+                }
+            }catch (Exception e){
+                showError(e.getMessage());
+            }
         }
     }
 
@@ -402,6 +473,12 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
     public void setUserDefault(View view){
         userToRegister.setRol(Constans.USER_ROL_DEFAULT);
         nextStep_Click(view);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        authLayout.setVisibility(View.VISIBLE);
     }
 
     @Override

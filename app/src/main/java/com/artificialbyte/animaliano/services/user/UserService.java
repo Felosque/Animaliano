@@ -14,6 +14,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -50,6 +52,30 @@ public class UserService {
                     });
         }catch (Exception e){
             e.getMessage();
+        }
+    }
+
+    public static void getUserInfo(String email){
+        try {
+            db.collection("userProfile")
+                    .whereEqualTo("email", email)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                User userEmail = null;
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    userEmail = document.toObject(User.class);
+                                }
+                                crudUser.getUserByEmail(userEmail);
+                            } else {
+                                crudUser.showMessage("¡Ups! No se ha encontrado el usuario");
+                            }
+                        }
+                    });
+        }catch (Exception e){
+
         }
     }
 

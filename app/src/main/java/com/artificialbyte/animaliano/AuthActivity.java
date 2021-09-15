@@ -539,4 +539,9 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
     public void showUser(String message) {
 
     }
+
+    @Override
+    public void getUserByEmail(User user) {
+
+    }
 }

@@ -1,5 +1,7 @@
 package com.artificialbyte.animaliano;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +9,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.artificialbyte.animaliano.dto.user.User;
+import com.bumptech.glide.Glide;
+import com.facebook.login.LoginManager;
+import com.google.firebase.auth.FirebaseAuth;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +29,14 @@ public class ProfileFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private TextView mail;
+    private TextView message;
+    private String email;
+    private String provider;
+    private User user;
+    private CircleImageView userImage;
+    SharedPreferences pref;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -59,6 +77,34 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        Bundle bundle = getActivity().getIntent().getExtras();
+        email = bundle.getString("email");
+        provider = bundle.getString("provider");
+
+        userImage = view.findViewById(R.id.img_profile);
+        mail = view.findViewById(R.id.txtCorreo);
+        message = view.findViewById(R.id.txtNombre);
+        Glide.with(getActivity().getApplicationContext()).load(user.getProfilePhoto()).into(userImage);
+
+        this.mail.setText(user.getEmail());
+        this.message.setText(user.getName());
+        return view;
+    }
+
+    public void setUser(User pUser){
+        this.user = pUser;
+    }
+
+    public void btnLogOut_click(View view){
+        pref.edit().clear().commit();
+        pref.edit().apply();
+        if (provider == ProviderType.FACEBOOK.name()){
+            LoginManager.getInstance().logOut();
+        }
+        FirebaseAuth.getInstance().signOut();
+        Intent authActivity = new Intent(getActivity(), AuthActivity.class);
+        startActivity(authActivity);
+        getActivity().finish();
     }
 }

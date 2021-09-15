@@ -23,6 +23,12 @@ import com.artificialbyte.animaliano.dto.user.User;
 import com.artificialbyte.animaliano.interfaces.CRUDUser;
 import com.artificialbyte.animaliano.services.user.UserService;
 import com.artificialbyte.animaliano.utils.Constans;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -32,9 +38,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -307,6 +317,44 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
         }
     }
 
+    private CallbackManager callbackManager = CallbackManager.Factory.create();
+    public void signUpFacebook_onClick(View view){
+        List<String> permission = new ArrayList<>();
+        permission.add("email");
+        LoginManager.getInstance().logInWithReadPermissions(this, permission);
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                if (loginResult != null){
+                    AccessToken token = loginResult.getAccessToken();
+                    AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+                    FirebaseAuth.getInstance().signInWithCredential(credential)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        String emailUser = task.getResult().getUser().getEmail();
+                                        showHome(emailUser, ProviderType.FACEBOOK);
+                                    } else {
+                                        showError(task.getException().getMessage());
+                                    }
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                showError("Ha ocurrido un error al intentar iniciar sesión");
+            }
+        });
+    }
+
     public void signUpGoogle_onClick(View view){
         googleRegister = true;
         signInGoogle_onClick(view);
@@ -408,6 +456,7 @@ public class AuthActivity extends AppCompatActivity implements CRUDUser {
     boolean googleRegister = false;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == Constans.PICK_IMAGE) {
             imageUri = data.getData();

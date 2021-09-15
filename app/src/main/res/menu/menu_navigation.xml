@@ -3,28 +3,28 @@
 
     <item
         android:id="@+id/mainItem"
-        android:icon="@mipmap/logo"
+        android:icon="@drawable/ic_baseline_home_24"
         android:title="Inicio" />
 
     <item
         android:id="@+id/adopItem"
-        android:icon="@mipmap/logo"
+        android:icon="@drawable/ic_baseline_pets_24"
         android:title="Adopción" />
 
     <item
         android:id="@+id/donateItem"
-        android:icon="@mipmap/logo"
+        android:icon="@drawable/ic_baseline_local_atm_24"
         android:title="Donaciones" />
 
 
     <item
         android:id="@+id/alertItem"
-        android:icon="@mipmap/logo"
-        android:title="Alerta Animal" />
+        android:icon="@drawable/ic_baseline_add_alert_24"
+        android:title="Alerta" />
 
     <item
         android:id="@+id/profileItem"
-        android:icon="@mipmap/logo"
+        android:icon="@drawable/outline_badge_24"
         android:title="Perfil" />
 
 </menu>

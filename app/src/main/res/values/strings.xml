@@ -16,5 +16,7 @@
     <string name="description_step_5_fund">Sabemos un poco sobre tí, pero queremos las personas confiamos más en las fundaciones con imagen, sube el logo de tu fundación:</string>
     <string name="description_step_5_user">Sabemos un poco sobre tí, pero queremos las personas confiamos más cuando tienes una imagen, sube una foto tuya:</string>
     <string name="title_step_resume">¡Genial, ya casi!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

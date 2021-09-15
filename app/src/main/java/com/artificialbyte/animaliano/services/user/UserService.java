@@ -7,7 +7,9 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 
 import com.artificialbyte.animaliano.dto.user.User;
-import com.artificialbyte.animaliano.interfaces.CRUDUser;
+import com.artificialbyte.animaliano.interfaces.activity.ShowMessage;
+import com.artificialbyte.animaliano.interfaces.user.GetUserByEmail;
+import com.artificialbyte.animaliano.interfaces.user.InUserRegister;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,14 +27,25 @@ import java.io.ByteArrayOutputStream;
 public class UserService {
 
     private static FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private static CRUDUser crudUser;
     private static FirebaseStorage storage = FirebaseStorage.getInstance();
+
+    private static InUserRegister inUserRegister;
+    private static ShowMessage showMessage;
+    private static GetUserByEmail getUserByEmail;
 
     public UserService(Context context) {
     }
 
-    public static void setCrudUser(CRUDUser crudUser) {
-        UserService.crudUser = crudUser;
+    public static void setInUserRegister(InUserRegister inUserRegister) {
+        UserService.inUserRegister = inUserRegister;
+    }
+
+    public static void setShowMessage(ShowMessage showMessage) {
+        UserService.showMessage = showMessage;
+    }
+
+    public static void setGetUserByEmail(GetUserByEmail getUserByEmail) {
+        UserService.getUserByEmail = getUserByEmail;
     }
 
     public static void addUser(User user) {
@@ -44,9 +57,9 @@ public class UserService {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                crudUser.isRegister(true);
+                                inUserRegister.inUserRegister(true);
                             } else {
-                                crudUser.isRegister(false);
+                                inUserRegister.inUserRegister(false);
                             }
                         }
                     });
@@ -68,9 +81,9 @@ public class UserService {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     userEmail = document.toObject(User.class);
                                 }
-                                crudUser.getUserByEmail(userEmail);
+                                getUserByEmail.getUserByEmail(userEmail);
                             } else {
-                                crudUser.showMessage("¡Ups! No se ha encontrado el usuario");
+                                showMessage.showMessage("¡Ups! No se ha encontrado el usuario");
                             }
                         }
                     });
@@ -90,7 +103,7 @@ public class UserService {
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                crudUser.showMessage("Error al subir la imagen");
+                showMessage.showMessage("Error al subir la imagen");
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -107,13 +120,13 @@ public class UserService {
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                   crudUser.isRegister(true);
+                                    inUserRegister.inUserRegister(true);
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                   crudUser.showMessage("Error al subir la imagen");
+                                    showMessage.showMessage("Error al subir la imagen");
                                 }
                             });
                 }catch (Exception e){

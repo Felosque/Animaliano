@@ -9,10 +9,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import com.artificialbyte.animaliano.dto.user.User;
-import com.artificialbyte.animaliano.interfaces.CRUDUser;
+import com.artificialbyte.animaliano.interfaces.user.GetUserByEmail;
 import com.artificialbyte.animaliano.services.user.UserService;
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -24,7 +23,7 @@ enum ProviderType{
     FACEBOOK
 }
 
-public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, CRUDUser {
+public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, GetUserByEmail {
 
 
     private BottomNavigationView bottomNavigationView;
@@ -39,7 +38,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         setTitle(R.string.home);
-        UserService.setCrudUser(this);
+        UserService.setGetUserByEmail(this);
 
         bottomNavigationView = findViewById(R.id.nvgMain);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
@@ -68,18 +67,22 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
         switch (item.getItemId()) {
             case R.id.mainItem:
+                    setTitle(R.string.home);
                     getSupportFragmentManager().beginTransaction().replace(R.id.container, indexFragment).commit();
                 return true;
 
             case R.id.adopItem:
+                setTitle(R.string.title_adoption);
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, adoptionFragment).commit();
                 return true;
 
             case R.id.donateItem:
+                setTitle(R.string.title_donate);
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, donationFragment).commit();
                 return true;
 
             case R.id.profileItem:
+                setTitle(R.string.title_profile);
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, profileFragment).commit();
                 return true;
         }
@@ -96,21 +99,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         Intent authActivity = new Intent(this, AuthActivity.class);
         startActivity(authActivity);
         finish();
-    }
-
-    @Override
-    public void isRegister(Boolean e) {
-
-    }
-
-    @Override
-    public void showMessage(String message) {
-
-    }
-
-    @Override
-    public void showUser(String message) {
-
     }
 
     @Override

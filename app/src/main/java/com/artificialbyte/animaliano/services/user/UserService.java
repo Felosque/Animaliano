@@ -8,8 +8,9 @@ import androidx.annotation.NonNull;
 
 import com.artificialbyte.animaliano.dto.user.User;
 import com.artificialbyte.animaliano.interfaces.activity.ShowMessage;
-import com.artificialbyte.animaliano.interfaces.user.GetUserByEmail;
+import com.artificialbyte.animaliano.interfaces.user.GetUserBy;
 import com.artificialbyte.animaliano.interfaces.user.InUserRegister;
+import com.artificialbyte.animaliano.utils.Constans;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,7 +32,7 @@ public class UserService {
 
     private static InUserRegister inUserRegister;
     private static ShowMessage showMessage;
-    private static GetUserByEmail getUserByEmail;
+    private static GetUserBy getUserBy;
 
     public UserService(Context context) {
     }
@@ -44,11 +45,11 @@ public class UserService {
         UserService.showMessage = showMessage;
     }
 
-    public static void setGetUserByEmail(GetUserByEmail getUserByEmail) {
-        UserService.getUserByEmail = getUserByEmail;
+    public static void setGetUserBy(GetUserBy getUserBy) {
+        UserService.getUserBy = getUserBy;
     }
 
-    public static void addUser(User user) {
+    public static void addUser(User user, int provider) {
         try {
             db.collection("userProfile")
                     .document(String.valueOf(user.getUid()))
@@ -57,9 +58,9 @@ public class UserService {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                inUserRegister.inUserRegister(true);
+                                inUserRegister.inUserRegister(true, provider);
                             } else {
-                                inUserRegister.inUserRegister(false);
+                                inUserRegister.inUserRegister(false, provider);
                             }
                         }
                     });
@@ -68,10 +69,10 @@ public class UserService {
         }
     }
 
-    public static void getUserInfo(String email){
+    public static void getUserInfo(String name, String param){
         try {
             db.collection("userProfile")
-                    .whereEqualTo("email", email)
+                    .whereEqualTo(param, name)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -81,7 +82,7 @@ public class UserService {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     userEmail = document.toObject(User.class);
                                 }
-                                getUserByEmail.getUserByEmail(userEmail);
+                                getUserBy.getUserBy(userEmail);
                             } else {
                                 showMessage.showMessage("¡Ups! No se ha encontrado el usuario");
                             }
@@ -120,7 +121,7 @@ public class UserService {
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    inUserRegister.inUserRegister(true);
+                                    inUserRegister.inUserRegister(true, Constans.EMAIL_REGISTER);
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {

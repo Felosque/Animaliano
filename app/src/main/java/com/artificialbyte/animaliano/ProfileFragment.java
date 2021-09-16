@@ -9,7 +9,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.artificialbyte.animaliano.dto.user.User;
 import com.bumptech.glide.Glide;
@@ -32,6 +35,14 @@ public class ProfileFragment extends Fragment {
 
     private TextView mail;
     private TextView message;
+
+    private LinearLayout fragProfile;
+
+    private EditText txtRol;
+    private EditText txtNit;
+    private EditText txtPhone;
+    private EditText txtDesc;
+
     private String email;
     private String provider;
     private User user;
@@ -74,6 +85,13 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        Toast.makeText(getActivity(), "Me resumí", Toast.LENGTH_SHORT).show();
+        updateUserInformation();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -85,15 +103,35 @@ public class ProfileFragment extends Fragment {
         userImage = view.findViewById(R.id.img_profile);
         mail = view.findViewById(R.id.txtCorreo);
         message = view.findViewById(R.id.txtNombre);
-        Glide.with(getActivity().getApplicationContext()).load(user.getProfilePhoto()).into(userImage);
-
-        this.mail.setText(user.getEmail());
-        this.message.setText(user.getName());
+        txtNit = view.findViewById(R.id.txtNit_Profile);
+        txtPhone = view.findViewById(R.id.txtPhone_Profile);
+        txtRol = view.findViewById(R.id.txtRol_Profile);
+        txtDesc = view.findViewById(R.id.txtDesc_Profile);
+        fragProfile = view.findViewById(R.id.frag_content_profile);
+        updateUserInformation();
         return view;
     }
 
     public void setUser(User pUser){
         this.user = pUser;
+    }
+
+    public void updateUserInformation(){
+
+        if (user != null) {
+            this.mail.setText(user.getEmail());
+            this.message.setText(user.getName());
+            this.txtRol.setText(user.getRol());
+            this.txtPhone.setText(user.getPhone());
+            this.txtNit.setText(user.getNit());
+            this.txtDesc.setText(user.getDescription());
+
+            if (!user.getProfilePhoto().isEmpty()) {
+                Glide.with(getActivity().getApplicationContext()).load(user.getProfilePhoto()).into(userImage);
+            }else {
+                userImage.setImageResource(R.mipmap.logo);
+            }
+        }
     }
 
     public void btnLogOut_click(View view){

@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.artificialbyte.animaliano.dto.user.User;
 import com.artificialbyte.animaliano.interfaces.activity.ShowMessage;
+import com.artificialbyte.animaliano.interfaces.user.GetUserBy;
 import com.artificialbyte.animaliano.interfaces.user.InUserRegister;
 import com.artificialbyte.animaliano.services.user.UserService;
 import com.artificialbyte.animaliano.utils.Constans;
@@ -46,7 +47,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class AuthActivity extends AppCompatActivity implements InUserRegister {
+public class AuthActivity extends AppCompatActivity implements InUserRegister, GetUserBy {
 
     private LinearLayout step_0, step_1, step_2, step_3, step_4, step_5, step_resume, title_desc, frag_loading;
     private LinearLayout step_login, step_mail_login;
@@ -72,8 +73,8 @@ public class AuthActivity extends AppCompatActivity implements InUserRegister {
         frag_loading.setVisibility(View.VISIBLE);
 
         UserService.setInUserRegister(this);
+        UserService.setGetUserBy(this);
         userToRegister = new User();
-        googleRegister = false;
 
         step_0 = findViewById(R.id.step_0);
         step_0.setVisibility(View.GONE);
@@ -205,7 +206,8 @@ public class AuthActivity extends AppCompatActivity implements InUserRegister {
                 title_desc.setVisibility(View.GONE);
                 step_resume.setVisibility(View.GONE);
                 frag_loading.setVisibility(View.VISIBLE);
-                UserService.addUser(userToRegister);
+                providerRegister = Constans.EMAIL_REGISTER;
+                UserService.addUser(userToRegister, Constans.EMAIL_REGISTER);
                 break;
             default:
                 step_0.setVisibility(View.VISIBLE);
@@ -331,8 +333,13 @@ public class AuthActivity extends AppCompatActivity implements InUserRegister {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        String emailUser = task.getResult().getUser().getEmail();
-                                        showHome(emailUser, ProviderType.FACEBOOK);
+                                        userToRegister.setUid(task.getResult().getUser().getUid());
+                                        userToRegister.setName(task.getResult().getUser().getDisplayName());
+                                        userToRegister.setPhone(task.getResult().getUser().getPhoneNumber());
+                                        userToRegister.setEmail(task.getResult().getUser().getEmail());
+                                        userToRegister.setDescription("Registrado con Facebook");
+                                        providerRegister = Constans.FACEBOOK_REGISTER;
+                                        UserService.getUserInfo(userToRegister.getName(), "uid");
                                     } else {
                                         showError(task.getException().getMessage());
                                     }
@@ -354,7 +361,6 @@ public class AuthActivity extends AppCompatActivity implements InUserRegister {
     }
 
     public void signUpGoogle_onClick(View view){
-        googleRegister = true;
         signInGoogle_onClick(view);
     }
 
@@ -451,7 +457,6 @@ public class AuthActivity extends AppCompatActivity implements InUserRegister {
         startActivityForResult(gallery, Constans.PICK_IMAGE);
     }
 
-    boolean googleRegister = false;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
@@ -471,15 +476,13 @@ public class AuthActivity extends AppCompatActivity implements InUserRegister {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        if(googleRegister){
-                                            userToRegister.setUid(task.getResult().getUser().getUid());
-                                            userToRegister.setName(task.getResult().getUser().getDisplayName());
-                                            userToRegister.setPhone(task.getResult().getUser().getPhoneNumber());
-                                            userToRegister.setDescription("Registrado con Google");
-                                        }else {
-                                            String emailUser = task.getResult().getUser().getEmail();
-                                            showHome(emailUser, ProviderType.GOOGLE);
-                                        }
+                                        userToRegister.setUid(task.getResult().getUser().getUid());
+                                        userToRegister.setName(task.getResult().getUser().getDisplayName());
+                                        userToRegister.setPhone(task.getResult().getUser().getPhoneNumber());
+                                        userToRegister.setEmail(task.getResult().getUser().getEmail());
+                                        userToRegister.setDescription("Registrado con Google");
+                                        providerRegister = Constans.GOOGLE_REGISTER;
+                                        UserService.getUserInfo(userToRegister.getName(), "uid");
                                     } else {
                                         showError(task.getException().getMessage());
                                     }
@@ -493,23 +496,32 @@ public class AuthActivity extends AppCompatActivity implements InUserRegister {
     }
 
     int uploadProcess = 0;
+    int providerRegister = -1;
     @Override
-    public void inUserRegister(Boolean e) {
-        if(e){
-            uploadProcess++;
-            if(uploadProcess == 1){
-                img_resume.setDrawingCacheEnabled(true);
-                img_resume.buildDrawingCache();
-                Bitmap bitmap = ((BitmapDrawable) img_resume.getDrawable()).getBitmap();
-                UserService.updateUserProfileImage(userToRegister.getUid(), bitmap);
-            }else if (uploadProcess == 2){
-                showHome(userToRegister.getEmail(), ProviderType.BASIC);
+    public void inUserRegister(Boolean e,  int provider) {
+        if(provider == Constans.EMAIL_REGISTER) {
+            if (e) {
+                uploadProcess++;
+                if (uploadProcess == 1) {
+                    img_resume.setDrawingCacheEnabled(true);
+                    img_resume.buildDrawingCache();
+                    Bitmap bitmap = ((BitmapDrawable) img_resume.getDrawable()).getBitmap();
+                    UserService.updateUserProfileImage(userToRegister.getUid(), bitmap);
+                } else if (uploadProcess == 2) {
+                    showHome(userToRegister.getEmail(), ProviderType.BASIC);
+                }
+            } else {
+                Toast.makeText(this, "Ocurrió un problema a la hora de actualizar datos", Toast.LENGTH_LONG).show();
+                step_resume.setVisibility(View.VISIBLE);
+                frag_loading.setVisibility(View.GONE);
+                title_desc.setVisibility(View.VISIBLE);
             }
-        }else {
-            Toast.makeText(this, "Ocurrió un problema a la hora de actualizar datos", Toast.LENGTH_LONG).show();
-            step_resume.setVisibility(View.VISIBLE);
-            frag_loading.setVisibility(View.GONE);
-            title_desc.setVisibility(View.VISIBLE);
+        }
+        else if (provider == Constans.GOOGLE_REGISTER) {
+            showHome(userToRegister.getEmail(), ProviderType.GOOGLE);
+        }
+        else if (provider == Constans.FACEBOOK_REGISTER){
+            showHome(userToRegister.getEmail(), ProviderType.FACEBOOK);
         }
     }
 
@@ -528,4 +540,22 @@ public class AuthActivity extends AppCompatActivity implements InUserRegister {
         authLayout.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void getUserBy(User user) {
+        if(user == null){
+            UserService.addUser(userToRegister, providerRegister);
+        }else{
+            String emailUser = user.getEmail();
+            if (providerRegister == Constans.EMAIL_REGISTER) {
+                showHome(emailUser, ProviderType.BASIC);
+            }
+            else if (providerRegister == Constans.GOOGLE_REGISTER) {
+                showHome(emailUser, ProviderType.GOOGLE);
+            }
+            else if (providerRegister == Constans.FACEBOOK_REGISTER) {
+                showHome(emailUser, ProviderType.FACEBOOK);
+            }
+        }
+
+    }
 }

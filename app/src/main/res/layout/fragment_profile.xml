@@ -7,6 +7,7 @@
     tools:context=".ProfileFragment">
 
     <!-- TODO: Update blank fragment layout -->
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -14,51 +15,159 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="1dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginEnd="1dp"
-            android:layout_marginBottom="1dp"
+            android:layout_marginBottom="100dp"
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/frag_content_profile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:visibility="visible"
                 android:orientation="vertical">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_profile"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_marginTop="50dp"
-                    app:civ_border_color="@color/text"
-                    app:civ_border_width="2dp"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/logo" />
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/txtNombre"
-                    android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:text="TextView" />
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/img_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="50dp"
+                        app:civ_border_color="@color/text"
+                        app:civ_border_width="2dp"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@mipmap/logo" />
 
-                <TextView
-                    android:id="@+id/txtCorreo"
-                    android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:text="TextView" />
+                    <TextView
+                        android:id="@+id/txtNombre"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/text"
+                        android:text="TextView" />
 
-                <Button
-                    android:id="@+id/btnLogOut"
-                    android:layout_marginTop="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:onClick="btnLogOut_click"
-                    android:text="LOG OUT" />
+                    <TextView
+                        android:id="@+id/txtCorreo"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:textColor="@color/text"
+                        android:text="TextView" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="@color/text"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginEnd="30dp">
+
+                        <EditText
+                            android:id="@+id/txtRol_Profile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#00FFFFFF"
+                            android:textColor="@color/text"
+                            android:textColorHint="@color/text"
+                            android:text="Default"
+                            android:ems="10"
+                            android:textSize="15dp"
+                            android:hint="Rol"
+                            android:enabled="false"
+                            android:inputType="textEmailAddress" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:textColorHint="@color/text"
+                        android:layout_marginEnd="30dp">
+
+                        <EditText
+                            android:id="@+id/txtNit_Profile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#00FFFFFF"
+                            android:textColor="@color/text"
+                            android:textColorHint="@color/text"
+                            android:text="Default"
+                            android:ems="10"
+                            android:textSize="15dp"
+                            android:hint="Nit"
+                            android:enabled="false"
+                            android:inputType="textEmailAddress" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:textColorHint="@color/text"
+                        android:layout_marginEnd="30dp">
+
+                        <EditText
+                            android:id="@+id/txtPhone_Profile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#00FFFFFF"
+                            android:textColor="@color/text"
+                            android:textColorHint="@color/text"
+                            android:text="Default"
+                            android:ems="10"
+                            android:textSize="15dp"
+                            android:hint="Phone"
+                            android:enabled="false"
+                            android:inputType="textEmailAddress" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:textColorHint="@color/text"
+                        android:layout_marginEnd="30dp">
+
+                        <EditText
+                            android:id="@+id/txtDesc_Profile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#00FFFFFF"
+                            android:textColor="@color/text"
+                            android:textColorHint="@color/text"
+                            android:ems="10"
+                            android:textSize="15dp"
+                            android:text="Default"
+                            android:hint="Descripción"
+                            android:enabled="false"
+                            android:inputType="textMultiLine" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <Button
+                        android:id="@+id/btnLogOut"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="btnLogOut_click"
+                        android:text="LOG OUT"/>
+
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -2,11 +2,15 @@ package com.artificialbyte.animaliano;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -16,6 +20,7 @@ import com.artificialbyte.animaliano.dto.user.User;
 import com.artificialbyte.animaliano.interfaces.activity.ShowMessage;
 import com.artificialbyte.animaliano.interfaces.user.GetUserBy;
 import com.artificialbyte.animaliano.services.user.UserService;
+import com.droidbyme.dialoglib.DroidDialog;
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,11 +51,11 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         UserService.setGetUserBy(this);
         UserService.setShowMessage(this);
 
-        fragLoading = findViewById(R.id.frag_loading);
-
         bottomNavigationView = findViewById(R.id.nvgMain);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setVisibility(View.GONE);
+
+        fragLoading = findViewById(R.id.frag_loading);
 
         Bundle bundle = getIntent().getExtras();
         email = bundle.getString("email");
@@ -114,6 +119,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         finish();
     }
 
+
     @Override
     public void getUserBy(User user) {
         if (user != null) {
@@ -122,6 +128,25 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             bottomNavigationView.setSelectedItemId(R.id.mainItem);
             bottomNavigationView.setVisibility(View.VISIBLE);
             profileFragment.setUser(user);
+            new DroidDialog.Builder(getWindow().getContext())
+                    .icon(R.mipmap.logo)
+                    .color(ContextCompat.getColor(getWindow().getContext(), R.color.text),
+                            ContextCompat.getColor(getWindow().getContext(), R.color.white),
+                            ContextCompat.getColor(getWindow().getContext(), R.color.text))
+                    .animation(2)
+                    .title("¡Completa tu perfil!")
+                    .content("Desbes completar tu perfil para poder usar todas las funcionalidades.")
+                    .cancelable(true, false)
+                    .positiveButton("Ir al perfil", new DroidDialog.onPositiveListener() {
+                        @Override
+                        public void onPositive(Dialog dialog) {
+                            bottomNavigationView.setSelectedItemId(R.id.profileItem);
+                            Toast.makeText(getWindow().getContext(), "hola", Toast.LENGTH_LONG).show();
+                            dialog.hide();
+                        }
+                    })
+                    .show();
+
         }else {
             Toast.makeText(this, "No se pudo recuperar la información del usuario.", Toast.LENGTH_LONG).show();
             btnLogOut_click(getWindow().getDecorView());
@@ -133,4 +158,5 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         btnLogOut_click(getWindow().getDecorView());
     }
+
 }

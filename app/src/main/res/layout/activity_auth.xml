@@ -201,6 +201,18 @@
                     android:layout_height="match_parent"/>
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/step_recovery_password"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:orientation="vertical">
+                <include
+                    layout="@layout/fragment_recvpassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 

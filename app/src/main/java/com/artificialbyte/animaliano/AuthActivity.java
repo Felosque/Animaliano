@@ -3,7 +3,9 @@ package com.artificialbyte.animaliano;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +26,7 @@ import com.artificialbyte.animaliano.interfaces.user.GetUserBy;
 import com.artificialbyte.animaliano.interfaces.user.InUserRegister;
 import com.artificialbyte.animaliano.services.user.UserService;
 import com.artificialbyte.animaliano.utils.Constans;
+import com.droidbyme.dialoglib.DroidDialog;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -50,10 +53,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AuthActivity extends AppCompatActivity implements InUserRegister, GetUserBy {
 
     private LinearLayout step_0, step_1, step_2, step_3, step_4, step_5, step_resume, title_desc, frag_loading;
-    private LinearLayout step_login, step_mail_login;
+    private LinearLayout step_login, step_mail_login, step_recovery_password;
     private int state_step = 0;
     private int login_step = 0;
-    private TextView txtTitle, txtDescription;
+    private TextView txtTitle, txtDescription, txtMailRecover;
     private TextView email, password, password_2; //Step 3
     private TextView name, nit, description; //Step 4
     private CircleImageView img; //step 5
@@ -68,6 +71,7 @@ public class AuthActivity extends AppCompatActivity implements InUserRegister, G
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        FirebaseAuth.getInstance().setLanguageCode("es");
 
         frag_loading = findViewById(R.id.frag_loading);
         frag_loading.setVisibility(View.VISIBLE);
@@ -86,6 +90,8 @@ public class AuthActivity extends AppCompatActivity implements InUserRegister, G
         step_resume = findViewById(R.id.step_resume);
         step_login = findViewById(R.id.step_login);
         step_mail_login = findViewById(R.id.step_mail_login);
+        step_recovery_password = findViewById(R.id.step_recovery_password);
+        txtMailRecover = findViewById(R.id.txtMail_Recover);
 
         txtTitle = findViewById(R.id.txtTitle_fragment);
         txtDescription = findViewById(R.id.txtDescription_fragment);
@@ -532,6 +538,50 @@ public class AuthActivity extends AppCompatActivity implements InUserRegister, G
     public void setUserDefault(View view){
         userToRegister.setRol(Constans.USER_ROL_DEFAULT);
         nextStep_Click(view);
+    }
+
+    public void recoveryPassword(View view){
+
+        String emailRecover = txtMailRecover.getText().toString();
+        FirebaseAuth.getInstance().setLanguageCode("es");
+        FirebaseAuth.getInstance().sendPasswordResetEmail(emailRecover)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            new DroidDialog.Builder(getWindow().getContext())
+                                    .icon(R.mipmap.logo)
+                                    .color(ContextCompat.getColor(getWindow().getContext(), R.color.text),
+                                            ContextCompat.getColor(getWindow().getContext(), R.color.white),
+                                            ContextCompat.getColor(getWindow().getContext(), R.color.text))
+                                    .animation(2)
+                                    .title("¡Enviamos un correo!")
+                                    .content("Dirigite al correo " + emailRecover + " para finalizar el proceso de recuperación de contraseña.")
+                                    .cancelable(true, false)
+                                    .positiveButton("¡Entendido!", new DroidDialog.onPositiveListener() {
+                                        @Override
+                                        public void onPositive(Dialog dialog) {
+                                            backStepRecoveryPassword(getWindow().getDecorView());
+                                            txtMailRecover.setText("");
+                                            dialog.hide();
+                                        }
+                                    })
+                                    .show();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Ups, ocurrió un error al intentar enviar el correo", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
+    public void nextStepRecoveryPassword(View view){
+        step_login.setVisibility(View.GONE);
+        step_recovery_password.setVisibility(View.VISIBLE);
+    }
+    public void backStepRecoveryPassword(View view){
+        step_login.setVisibility(View.VISIBLE);
+        step_recovery_password.setVisibility(View.GONE);
     }
 
     @Override

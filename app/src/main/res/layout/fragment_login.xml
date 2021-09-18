@@ -86,6 +86,17 @@
                 android:text="Volver atrás"
                 android:textColor="@color/text" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="¿Olvidaste tu contraseña? Recuperala aquí"
+                android:textAlignment="center"
+                android:textColor="@color/text"
+                android:textSize="15dp"
+                android:layout_marginTop="10dp"
+                android:onClick="nextStepRecoveryPassword"
+                android:layout_marginBottom="20dp"/>
+
         </LinearLayout>
 
     </LinearLayout>

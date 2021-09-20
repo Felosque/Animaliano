@@ -75,6 +75,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     AdoptionFragment adoptionFragment = new AdoptionFragment();
     DonationFragment donationFragment = new DonationFragment();
     ProfileFragment profileFragment = new ProfileFragment();
+    AlertFragment alertFragment = new AlertFragment();
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -98,8 +99,14 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 setTitle(R.string.title_donate);
                 return true;
 
-            case R.id.profileItem:
+            case R.id.alertItem:
                 optionItem = 3;
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, alertFragment).commit();
+                setTitle(R.string.title_alert);
+                return true;
+
+            case R.id.profileItem:
+                optionItem = 4;
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, profileFragment).commit();
                 setTitle(R.string.title_profile);
                 return true;

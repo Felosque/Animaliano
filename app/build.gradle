@@ -53,5 +53,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.2.0')
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.github.droidbyme:DroidDialog:1d3d30d4ef'
+    implementation 'com.github.smarteist:autoimageslider:1.3.9'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
 }

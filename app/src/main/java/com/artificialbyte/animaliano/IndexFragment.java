@@ -1,5 +1,6 @@
 package com.artificialbyte.animaliano;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -61,4 +62,10 @@ public class IndexFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_index, container, false);
     }
+
+    public void viewPet(View view){
+        Intent inte = new Intent(getContext(), PetViewActivity.class);
+        startActivity(inte);
+    }
+
 }

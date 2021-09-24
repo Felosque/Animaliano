@@ -166,4 +166,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         btnLogOut_click(getWindow().getDecorView());
     }
 
+    public void viewPet(View view){
+        indexFragment.viewPet(view);
+    }
+
 }

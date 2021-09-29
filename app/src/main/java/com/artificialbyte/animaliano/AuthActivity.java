@@ -21,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.artificialbyte.animaliano.dto.user.User;
-import com.artificialbyte.animaliano.interfaces.activity.ShowMessage;
 import com.artificialbyte.animaliano.interfaces.user.GetUserBy;
 import com.artificialbyte.animaliano.interfaces.user.InUserRegister;
 import com.artificialbyte.animaliano.services.user.UserService;
@@ -162,7 +161,7 @@ public class AuthActivity extends AppCompatActivity implements InUserRegister, G
                 title_desc.setVisibility(View.VISIBLE);
                 txtTitle.setVisibility(View.VISIBLE);
                 txtDescription.setVisibility(View.VISIBLE);
-                if (userToRegister.getRol().equals(Constans.USER_ROL_FUNDATION)){
+                if (userToRegister.getRol().equals(Constans.USER_ROL_FOUNDATION)){
                     txtTitle.setText(getResources().getString(R.string.title_fund));
                 }else{
                     txtTitle.setText(getResources().getString(R.string.title_user));
@@ -186,7 +185,7 @@ public class AuthActivity extends AppCompatActivity implements InUserRegister, G
                 title_desc.setVisibility(View.VISIBLE);
                 txtTitle.setVisibility(View.VISIBLE);
                 txtDescription.setVisibility(View.VISIBLE);
-                if (userToRegister.getRol().equals(Constans.USER_ROL_FUNDATION)){
+                if (userToRegister.getRol().equals(Constans.USER_ROL_FOUNDATION)){
                     txtTitle.setText(getResources().getString(R.string.title_fund));
                     txtDescription.setText(getResources().getString(R.string.description_step_5_fund));
                 }else{
@@ -297,7 +296,7 @@ public class AuthActivity extends AppCompatActivity implements InUserRegister, G
                         userToRegister.setEmail(emailF);
                         userToRegister.setUid(task.getResult().getUser().getUid());
                         title_desc.setVisibility(View.VISIBLE);
-                        if (userToRegister.getRol().equals(Constans.USER_ROL_FUNDATION)){
+                        if (userToRegister.getRol().equals(Constans.USER_ROL_FOUNDATION)){
                             txtTitle.setText(getResources().getString(R.string.title_fund));
                         }else{
                             txtTitle.setText(getResources().getString(R.string.title_user));
@@ -345,7 +344,7 @@ public class AuthActivity extends AppCompatActivity implements InUserRegister, G
                                         userToRegister.setEmail(task.getResult().getUser().getEmail());
                                         userToRegister.setDescription("Registrado con Facebook");
                                         providerRegister = Constans.FACEBOOK_REGISTER;
-                                        UserService.getUserInfo(userToRegister.getName(), "uid");
+                                        UserService.getUserInfo(userToRegister.getUid(), "uid");
                                     } else {
                                         showError(task.getException().getMessage());
                                     }
@@ -488,7 +487,7 @@ public class AuthActivity extends AppCompatActivity implements InUserRegister, G
                                         userToRegister.setEmail(task.getResult().getUser().getEmail());
                                         userToRegister.setDescription("Registrado con Google");
                                         providerRegister = Constans.GOOGLE_REGISTER;
-                                        UserService.getUserInfo(userToRegister.getName(), "uid");
+                                        UserService.getUserInfo(userToRegister.getUid(), "uid");
                                     } else {
                                         showError(task.getException().getMessage());
                                     }
@@ -532,7 +531,7 @@ public class AuthActivity extends AppCompatActivity implements InUserRegister, G
     }
 
     public void setUserFundation(View view){
-        userToRegister.setRol(Constans.USER_ROL_FUNDATION);
+        userToRegister.setRol(Constans.USER_ROL_FOUNDATION);
         nextStep_Click(view);
     }
     public void setUserDefault(View view){

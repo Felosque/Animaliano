@@ -9,12 +9,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.artificialbyte.animaliano.dto.user.User;
+import com.artificialbyte.animaliano.fundation.FoundationMenuActivity;
+import com.artificialbyte.animaliano.utils.Constans;
 import com.bumptech.glide.Glide;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,6 +40,8 @@ public class ProfileFragment extends Fragment {
     private TextView message;
 
     private LinearLayout fragProfile;
+
+    Button btnAdminFoundation;
 
     private EditText txtRol;
     private EditText txtNit;
@@ -100,6 +105,7 @@ public class ProfileFragment extends Fragment {
         email = bundle.getString("email");
         provider = bundle.getString("provider");
 
+        btnAdminFoundation = view.findViewById(R.id.btnAdmin);
         userImage = view.findViewById(R.id.img_profile);
         mail = view.findViewById(R.id.txtCorreo);
         message = view.findViewById(R.id.txtNombre);
@@ -126,6 +132,12 @@ public class ProfileFragment extends Fragment {
             this.txtNit.setText(user.getNit());
             this.txtDesc.setText(user.getDescription());
 
+            if (user.getRol() != null && user.getRol().equals(Constans.USER_ROL_FOUNDATION)){
+                btnAdminFoundation.setVisibility(View.VISIBLE);
+            }else {
+                btnAdminFoundation.setVisibility(View.GONE);
+            }
+
             if (!user.getProfilePhoto().isEmpty()) {
                 Glide.with(getActivity().getApplicationContext()).load(user.getProfilePhoto()).into(userImage);
             }else {
@@ -144,5 +156,11 @@ public class ProfileFragment extends Fragment {
         Intent authActivity = new Intent(getActivity(), AuthActivity.class);
         startActivity(authActivity);
         getActivity().finish();
+    }
+
+    public void btnAdminFoundation_click(View view){
+        Intent intent = new Intent(getActivity(), FoundationMenuActivity.class);
+        intent.putExtra("USER", user);
+        startActivity(intent);
     }
 }

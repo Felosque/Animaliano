@@ -16,24 +16,14 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.artificialbyte.animaliano.dto.pet.Pet;
-import com.artificialbyte.animaliano.dto.pet.PetRequest;
 import com.artificialbyte.animaliano.dto.user.User;
 import com.artificialbyte.animaliano.interfaces.activity.ShowMessage;
-import com.artificialbyte.animaliano.interfaces.pet.AddPet;
 import com.artificialbyte.animaliano.interfaces.user.GetUserBy;
-import com.artificialbyte.animaliano.services.pet.PetService;
 import com.artificialbyte.animaliano.services.user.UserService;
 import com.droidbyme.dialoglib.DroidDialog;
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 enum ProviderType{
     BASIC,
@@ -41,7 +31,7 @@ enum ProviderType{
     FACEBOOK
 }
 
-public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, GetUserBy, ShowMessage, AddPet {
+public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, GetUserBy, ShowMessage {
 
 
     private BottomNavigationView bottomNavigationView;
@@ -177,40 +167,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     public void viewPet(View view){
-
-        /*
-        ESTO ES UNA PRUEBA
-        PetService.setAddPet(this);
-        PetService.setShowMessage(this);
-
-        PetRequest miPetRequest = new PetRequest("SADFAAS", "ASDASD", "Felipe", "90432434234", "Hola lo quiero");
-        PetRequest miPetRequest2 = new PetRequest("SADFAAS", "ASDASD", "Alejandra", "893448342", "Hola lo quiero");
-        ArrayList<PetRequest> misPetsRequest = new ArrayList<PetRequest>();
-        misPetsRequest.add(miPetRequest);
-        misPetsRequest.add(miPetRequest2);
-        misPetsRequest.add(miPetRequest);
-
-        Pet miPerro = new Pet();
-        miPerro.setOwner("Felipe");
-        miPerro.setBirthDate("10/23/43");
-        ArrayList<String> miArrayFotos = new ArrayList<String>() {{add("Foto 1"); add("Foto 2"); add("Foto 3");}};
-        miPerro.setPhotos(miArrayFotos);
-        miPerro.setUid("FSALKHFKJSDKFDJAS");
-        miPerro.setUidFoundation("ADSKFJFKJZSFD");
-        Map<String, String> miMap = new HashMap<>();
-        miMap.put("RABIA", "11/02/23");
-        miMap.put("FIERA", "11/02/23");
-        miMap.put("FIBRE AMARILLA", "11/02/23");
-        miMap.put("AMAPOLA", "11/02/23");
-        miPerro.setVaccinationSchedule(miMap);
-        miPerro.setPetRequests(misPetsRequest);
-        PetService.addPet(miPerro);*/
-
         indexFragment.viewPet(view);
     }
 
-    @Override
-    public void addPet(Pet pet) {
-        Toast.makeText(this, "Se agregó", Toast.LENGTH_SHORT).show();
-    }
 }

@@ -25,6 +25,9 @@ public class Pet {
         this.petRequests = petRequests;
     }
 
+    public Pet() {
+    }
+
     public String getUid() {
         return uid;
     }

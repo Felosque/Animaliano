@@ -64,7 +64,7 @@ public class IndexFragment extends Fragment {
     }
 
     public void viewPet(View view){
-        Intent inte = new Intent(getContext(), PetViewFragment.class);
+        Intent inte = new Intent(getContext(), PetViewActivity.class);
         startActivity(inte);
     }
 

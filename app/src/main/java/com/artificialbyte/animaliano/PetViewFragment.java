@@ -1,18 +1,27 @@
 package com.artificialbyte.animaliano;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.artificialbyte.animaliano.adapters.SliderAdapter;
 import com.artificialbyte.animaliano.utils.SliderData;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
+
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
+import com.artificialbyte.animaliano.ui.main.SectionsPagerAdapter;
+import com.artificialbyte.animaliano.databinding.ActivityPetViewFragmentBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -21,7 +30,9 @@ import com.smarteist.autoimageslider.SliderView;
 
 import java.util.ArrayList;
 
-public class PetViewActivity extends AppCompatActivity {
+public class PetViewFragment extends AppCompatActivity {
+
+    private ActivityPetViewFragmentBinding binding;
 
     private SliderAdapter adapter;
     private ArrayList<SliderData> sliderDataArrayList;
@@ -31,10 +42,17 @@ public class PetViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pet_view);
-
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        binding = ActivityPetViewFragmentBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        ViewPager viewPager = binding.viewPager;
+        viewPager.setAdapter(sectionsPagerAdapter);
+        TabLayout tabs = binding.tabs;
+        tabs.setupWithViewPager(viewPager);
 
 
         // creating a new array list fr our array list.
@@ -46,7 +64,8 @@ public class PetViewActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         // calling our method to load images.
-        loadImages();
+        //loadImages();
+
     }
 
     private void loadImages() {
@@ -74,7 +93,7 @@ public class PetViewActivity extends AppCompatActivity {
 
                     // after adding data to our array list we are passing
                     // that array list inside our adapter class.
-                    adapter = new SliderAdapter(PetViewActivity.this, sliderDataArrayList);
+                    adapter = new SliderAdapter(PetViewFragment.this, sliderDataArrayList);
 
                     // belows line is for setting adapter
                     // to our slider view
@@ -121,5 +140,4 @@ public class PetViewActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 }

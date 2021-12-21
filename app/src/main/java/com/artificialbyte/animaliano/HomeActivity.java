@@ -170,4 +170,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         indexFragment.viewPet(view);
     }
 
+    public void btnAdminFoundation_click(View view){
+        profileFragment.btnAdminFoundation_click(view);
+    }
+
 }

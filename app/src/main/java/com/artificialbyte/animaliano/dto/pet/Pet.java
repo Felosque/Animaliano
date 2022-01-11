@@ -11,10 +11,10 @@ public class Pet {
     private String owner;
     private ArrayList<String> photos;
     private String birthDate;
-    private Map<String, String> vaccinationSchedule;
+    private ArrayList<Vaccination> vaccinationSchedule;
     private ArrayList<PetRequest> petRequests;
 
-    public Pet(String uid, String uidFoundation, String description, String owner, ArrayList<String> photos, String birthDate, Map<String, String> vaccinationSchedule, ArrayList<PetRequest> petRequests) {
+    public Pet(String uid, String uidFoundation, String description, String owner, ArrayList<String> photos, String birthDate, ArrayList<Vaccination> vaccinationSchedule, ArrayList<PetRequest> petRequests) {
         this.uid = uid;
         this.uidFoundation = uidFoundation;
         this.description = description;
@@ -76,11 +76,11 @@ public class Pet {
         this.birthDate = birthDate;
     }
 
-    public Map<String, String> getVaccinationSchedule() {
+    public ArrayList<Vaccination> getVaccinationSchedule() {
         return vaccinationSchedule;
     }
 
-    public void setVaccinationSchedule(Map<String, String> vaccinationSchedule) {
+    public void setVaccinationSchedule(ArrayList<Vaccination> vaccinationSchedule) {
         this.vaccinationSchedule = vaccinationSchedule;
     }
 

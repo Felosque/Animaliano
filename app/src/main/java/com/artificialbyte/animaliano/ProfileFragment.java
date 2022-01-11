@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +18,22 @@ import android.widget.Toast;
 
 import com.artificialbyte.animaliano.dto.user.User;
 import com.artificialbyte.animaliano.fundation.FoundationMenuActivity;
+import com.artificialbyte.animaliano.services.epayco.EpayService;
+import com.artificialbyte.animaliano.services.epayco.Transaction;
 import com.artificialbyte.animaliano.utils.Constans;
 import com.bumptech.glide.Glide;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import co.epayco.android.Epayco;
+import co.epayco.android.models.Authentication;
+import co.epayco.android.models.Card;
+import co.epayco.android.models.Charge;
+import co.epayco.android.models.Client;
+import co.epayco.android.util.EpaycoCallback;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -89,10 +101,15 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    String idToken = "";
     @Override
     public void onResume() {
         super.onResume();
-        Toast.makeText(getActivity(), "Me resumí", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "Me resumí", Toast.LENGTH_SHORT).show();
+        //EpayService epa = new EpayService(Transaction.getNotFoundsCard());
+        EpayService epa2 = new EpayService(Transaction.getPendingCard());
+        //EpayService epa3 = new EpayService(Transaction.getAcceptedCard());
+        //EpayService epa4 = new EpayService(Transaction.getFailedCard());
         updateUserInformation();
     }
 

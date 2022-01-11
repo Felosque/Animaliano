@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.artificialbyte.animaliano.services.epayco.EpayService;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link DonationFragment#newInstance} factory method to

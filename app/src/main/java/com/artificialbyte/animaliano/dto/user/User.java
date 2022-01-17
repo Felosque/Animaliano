@@ -18,6 +18,7 @@ public class User implements Serializable {
     private boolean verify;
     private String rol;
     private String phone;
+    private double balance;
 
     public User() {
         this.uid = "";
@@ -34,9 +35,10 @@ public class User implements Serializable {
         this.city_municipality = "";
         this.department = "";
         this.phone = null;
+        this.balance = 0.0;
     }
 
-    public User(String description, String rol, String uid, String name, String lastName, String userName, String email, Long birthDate, String profilePhoto, String nit, boolean verify) {
+    public User(String description, String rol, String uid, String name, String lastName, String userName, String email, Long birthDate, String profilePhoto, String nit, boolean verify, double balance) {
         this.uid = uid;
         this.name = name;
         this.lastName = lastName;
@@ -48,6 +50,7 @@ public class User implements Serializable {
         this.nit = nit;
         this.verify = verify;
         this.rol = rol;
+        this.balance = balance;
     }
 
     public String getPhone() {
@@ -162,5 +165,11 @@ public class User implements Serializable {
         this.verify = verify;
     }
 
+    public double getBalance() {
+        return balance;
+    }
 
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
 }

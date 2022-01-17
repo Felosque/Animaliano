@@ -16,14 +16,21 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.artificialbyte.animaliano.dto.pet.Pet;
+import com.artificialbyte.animaliano.dto.pet.PetRequest;
+import com.artificialbyte.animaliano.dto.pet.Vaccination;
 import com.artificialbyte.animaliano.dto.user.User;
 import com.artificialbyte.animaliano.interfaces.activity.ShowMessage;
+import com.artificialbyte.animaliano.interfaces.pet.AddPet;
 import com.artificialbyte.animaliano.interfaces.user.GetUserBy;
+import com.artificialbyte.animaliano.services.pet.PetService;
 import com.artificialbyte.animaliano.services.user.UserService;
 import com.droidbyme.dialoglib.DroidDialog;
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.ArrayList;
 
 enum ProviderType{
     BASIC,
@@ -31,7 +38,7 @@ enum ProviderType{
     FACEBOOK
 }
 
-public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, GetUserBy, ShowMessage {
+public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, GetUserBy, ShowMessage, AddPet {
 
 
     private BottomNavigationView bottomNavigationView;
@@ -154,6 +161,23 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                     })
                     .show();
 
+            ArrayList<String> photos = new ArrayList<>();
+            ArrayList<Vaccination> vacunas= new ArrayList<>();
+            ArrayList<PetRequest> request = new ArrayList<>();
+            Pet pet = new Pet();
+            pet.setPetRequests(request);
+            pet.setPhotos(photos);
+            pet.setVaccinationSchedule(vacunas);
+
+            pet.setUid("example");
+            pet.setUidFoundation("example");
+            pet.setDescription("example");
+            pet.setOwner("example owner");
+            pet.setBirthDate("10-10-2021");
+            //PetService.setAddPet(this);
+            //PetService.addPet(pet);
+
+
         }else {
             Toast.makeText(this, "No se pudo recuperar la información del usuario.", Toast.LENGTH_LONG).show();
             btnLogOut_click(getWindow().getDecorView());
@@ -174,4 +198,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         profileFragment.btnAdminFoundation_click(view);
     }
 
+    @Override
+    public void addPet(Pet pet) {
+
+    }
 }

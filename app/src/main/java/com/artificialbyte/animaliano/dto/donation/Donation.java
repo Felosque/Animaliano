@@ -6,13 +6,17 @@ public class Donation {
     private String refPayco;
     private String facture;
     private String foundationName;
+    private String idFoundation;
+    private String status;
     private String mount;
 
-    public Donation(String userid, String refPayco, String foundationName, String mount) {
+    public Donation(String userid, String refPayco, String foundationName, String mount, String idFoundation, String status) {
         this.userid = userid;
         this.refPayco = refPayco;
         this.foundationName = foundationName;
         this.mount = mount;
+        this.idFoundation = idFoundation;
+        this.status = status;
     }
 
     public Donation() {
@@ -56,6 +60,22 @@ public class Donation {
 
     public void setMount(String mount) {
         this.mount = mount;
+    }
+
+    public String getIdFoundation() {
+        return idFoundation;
+    }
+
+    public void setIdFoundation(String idFoundation) {
+        this.idFoundation = idFoundation;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

@@ -65,6 +65,7 @@ public class IndexFragment extends Fragment {
 
     public void viewPet(View view){
         Intent inte = new Intent(getContext(), PetViewActivity.class);
+        inte.putExtra("petid", "pSTJlizBeDzBpdQANjnk");
         startActivity(inte);
     }
 

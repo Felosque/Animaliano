@@ -33,7 +33,7 @@ public class FoundationMenuActivity extends AppCompatActivity {
         Bundle params = getIntent().getExtras();
         if (params != null) {
             user = (User) params.getSerializable("USER");
-            name.setText(user.getEmail());
+            name.setText("Balance: "+ user.getBalance());
             if (!user.getProfilePhoto().isEmpty()) {
                 Glide.with(this.getApplicationContext()).load(user.getProfilePhoto()).into(image);
             }else {

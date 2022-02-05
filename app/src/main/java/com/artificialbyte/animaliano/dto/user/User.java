@@ -172,4 +172,25 @@ public class User implements Serializable {
     public void setBalance(double balance) {
         this.balance = balance;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "uid='" + uid + '\'' +
+                ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", description='" + description + '\'' +
+                ", birthDate='" + birthDate + '\'' +
+                ", profilePhoto='" + profilePhoto + '\'' +
+                ", city_municipality='" + city_municipality + '\'' +
+                ", department='" + department + '\'' +
+                ", nit='" + nit + '\'' +
+                ", verify=" + verify +
+                ", rol='" + rol + '\'' +
+                ", phone='" + phone + '\'' +
+                ", balance=" + balance +
+                '}';
+    }
 }

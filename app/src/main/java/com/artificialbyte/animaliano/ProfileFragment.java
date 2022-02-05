@@ -107,7 +107,7 @@ public class ProfileFragment extends Fragment {
         super.onResume();
         //Toast.makeText(getActivity(), "Me resumí", Toast.LENGTH_SHORT).show();
         //EpayService epa = new EpayService(Transaction.getNotFoundsCard());
-        EpayService epa2 = new EpayService(Transaction.getPendingCard());
+        //EpayService epa2 = new EpayService(Transaction.getPendingCard());
         //EpayService epa3 = new EpayService(Transaction.getAcceptedCard());
         //EpayService epa4 = new EpayService(Transaction.getFailedCard());
         updateUserInformation();

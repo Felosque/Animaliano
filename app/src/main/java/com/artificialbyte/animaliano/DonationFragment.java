@@ -3,6 +3,7 @@ package com.artificialbyte.animaliano;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,11 +27,12 @@ import java.util.ArrayList;
  * Use the {@link DonationFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DonationFragment extends Fragment {
+public class DonationFragment extends Fragment implements SearchView.OnQueryTextListener {
 
-    private EditText searchFoundation;
+    private SearchView searchFoundation;
     private ArrayList<User> foundationList;
     private RecyclerView recyclerFoundations;
+    private FoundationAdapter adapter;
 
     public DonationFragment() {
 
@@ -97,8 +99,9 @@ public class DonationFragment extends Fragment {
 
 
         searchFoundation = view.findViewById(R.id.searchFoundation);
+        searchFoundation.setOnQueryTextListener(this);
 
-        FoundationAdapter adapter = new FoundationAdapter(foundationList);
+        adapter = new FoundationAdapter(foundationList);
         recyclerFoundations.setAdapter(adapter);
         return view;
     }
@@ -114,4 +117,14 @@ public class DonationFragment extends Fragment {
     }
 
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        adapter.filter(newText);
+        return false;
+    }
 }

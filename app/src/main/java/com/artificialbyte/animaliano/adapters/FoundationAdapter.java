@@ -1,5 +1,6 @@
 package com.artificialbyte.animaliano.adapters;
 
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +15,20 @@ import com.artificialbyte.animaliano.dto.user.User;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class FoundationAdapter extends RecyclerView.Adapter<FoundationAdapter.ViewHolderFoundation>{
 
     private ArrayList<User> foundationList;
+    private ArrayList<User> originalItems;
     private View view;
 
     public FoundationAdapter(ArrayList<User> foundationList) {
         this.foundationList = foundationList;
+        this.originalItems = new ArrayList<>();
+        originalItems.addAll(foundationList);
     }
 
     @NonNull
@@ -43,6 +50,30 @@ public class FoundationAdapter extends RecyclerView.Adapter<FoundationAdapter.Vi
     @Override
     public int getItemCount() {
         return foundationList.size();
+    }
+
+    public void filter(String strSearch){
+        if (strSearch.length() == 0){
+            foundationList.clear();
+            foundationList.addAll(originalItems);
+        }
+        else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                List<User> collect = foundationList.stream().filter(i -> i.getName().toLowerCase().contains(strSearch))
+                        .collect(Collectors.toList());
+                foundationList.clear();
+                foundationList.addAll(collect);
+            }
+            else {
+                foundationList.clear();
+                for (User user: originalItems) {
+                    if (user.getName().toLowerCase().contains(strSearch)){
+                        foundationList.add(user);
+                    }
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     public class ViewHolderFoundation extends RecyclerView.ViewHolder {

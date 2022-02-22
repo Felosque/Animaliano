@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import com.artificialbyte.animaliano.dto.user.User;
 import com.artificialbyte.animaliano.interfaces.activity.ShowMessage;
 import com.artificialbyte.animaliano.interfaces.user.GetUserBy;
+import com.artificialbyte.animaliano.interfaces.user.GetUsersFromParam;
 import com.artificialbyte.animaliano.interfaces.user.InUserRegister;
 import com.artificialbyte.animaliano.utils.Constans;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,6 +25,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 public class UserService {
 
@@ -33,6 +35,7 @@ public class UserService {
     private static InUserRegister inUserRegister;
     private static ShowMessage showMessage;
     private static GetUserBy getUserBy;
+    private static GetUsersFromParam getUsersFromParam;
 
     public UserService(Context context) {
     }
@@ -43,6 +46,10 @@ public class UserService {
 
     public static void setShowMessage(ShowMessage showMessage) {
         UserService.showMessage = showMessage;
+    }
+
+    public static void setGetUsersFromParam(GetUsersFromParam getUsersFromParam) {
+        UserService.getUsersFromParam = getUsersFromParam;
     }
 
     public static void setGetUserBy(GetUserBy getUserBy) {
@@ -85,6 +92,30 @@ public class UserService {
                                 getUserBy.getUserBy(userEmail);
                             } else {
                                 showMessage.showMessage("¡Ups! No se ha encontrado el usuario");
+                            }
+                        }
+                    });
+        }catch (Exception e){
+
+        }
+    }
+
+    public static void getUsersBy(String name, String param){
+        try {
+            db.collection("userProfile")
+                    .whereEqualTo(param, name)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                ArrayList<User> users = new ArrayList<>();
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                     users.add(document.toObject(User.class));
+                                }
+                                getUsersFromParam.getUsersFromParam(users);
+                            } else {
+                                showMessage.showMessage("¡Ups! No se ha encontrado ninguna fundación");
                             }
                         }
                     });

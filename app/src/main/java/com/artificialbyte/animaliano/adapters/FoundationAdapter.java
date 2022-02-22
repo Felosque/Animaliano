@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class FoundationAdapter extends RecyclerView.Adapter<FoundationAdapter.ViewHolderFoundation>{
 
     private ArrayList<User> foundationList;
@@ -42,8 +44,8 @@ public class FoundationAdapter extends RecyclerView.Adapter<FoundationAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolderFoundation holder, int position) {
         holder.name.setText(foundationList.get(position).getName());
         holder.description.setText(foundationList.get(position).getDescription());
-        if (foundationList.get(position).getProfilePhoto().isEmpty()) {
-            Glide.with(view.getContext()).load("https://image.shutterstock.com/image-vector/conversation-talking-black-icon-50x50-260nw-1037215345.jpg").into(holder.photo);
+        if (!foundationList.get(position).getProfilePhoto().isEmpty()) {
+            Glide.with(view.getContext()).load(foundationList.get(position).getProfilePhoto()).into(holder.photo);
         }
     }
 
@@ -59,7 +61,7 @@ public class FoundationAdapter extends RecyclerView.Adapter<FoundationAdapter.Vi
         }
         else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                List<User> collect = foundationList.stream().filter(i -> i.getName().toLowerCase().contains(strSearch))
+                List<User> collect = foundationList.stream().filter(i -> i.getName().toLowerCase().contains(strSearch.toLowerCase()))
                         .collect(Collectors.toList());
                 foundationList.clear();
                 foundationList.addAll(collect);
@@ -67,7 +69,7 @@ public class FoundationAdapter extends RecyclerView.Adapter<FoundationAdapter.Vi
             else {
                 foundationList.clear();
                 for (User user: originalItems) {
-                    if (user.getName().toLowerCase().contains(strSearch)){
+                    if (user.getName().toLowerCase().contains(strSearch.toLowerCase())){
                         foundationList.add(user);
                     }
                 }
@@ -79,7 +81,7 @@ public class FoundationAdapter extends RecyclerView.Adapter<FoundationAdapter.Vi
     public class ViewHolderFoundation extends RecyclerView.ViewHolder {
 
         TextView name, description;
-        ImageView photo;
+        CircleImageView photo;
 
         public ViewHolderFoundation(@NonNull View itemView) {
             super(itemView);

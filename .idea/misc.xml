@@ -5,6 +5,8 @@
       <map>
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/drawable/ic_baseline_local_atm_24.xml" value="0.17864583333333334" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/activity_fundation_menu.xml" value="0.17" />
+        <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/activity_home.xml" value="0.26875" />
+        <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/activity_payment.xml" value="0.2546875" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/activity_pet_view.xml" value="0.25" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/activity_pet_view_fragment.xml" value="0.13229166666666667" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/fragment_alert.xml" value="0.2" />
@@ -13,6 +15,7 @@
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/fragment_recvpassword.xml" value="0.26875" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/fragment_register_step2.xml" value="0.26875" />
+        <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/fragment_register_step3.xml" value="0.26875" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/fragment_register_step4.xml" value="0.26875" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/fragment_register_step5.xml" value="0.26875" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/image_slider_item.xml" value="0.13229166666666667" />

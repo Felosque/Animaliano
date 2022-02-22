@@ -1,5 +1,8 @@
 package com.artificialbyte.animaliano;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.format.Formatter;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,7 +22,11 @@ import android.widget.Toast;
 
 import com.artificialbyte.animaliano.adapters.FoundationAdapter;
 import com.artificialbyte.animaliano.dto.user.User;
+import com.artificialbyte.animaliano.interfaces.user.GetUsersFromParam;
 import com.artificialbyte.animaliano.services.epayco.EpayService;
+import com.artificialbyte.animaliano.services.user.UserService;
+import com.artificialbyte.animaliano.utils.Constans;
+import com.artificialbyte.animaliano.utils.Functions;
 
 import java.util.ArrayList;
 
@@ -27,7 +35,7 @@ import java.util.ArrayList;
  * Use the {@link DonationFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DonationFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class DonationFragment extends Fragment implements SearchView.OnQueryTextListener, GetUsersFromParam {
 
     private SearchView searchFoundation;
     private ArrayList<User> foundationList;
@@ -62,9 +70,11 @@ public class DonationFragment extends Fragment implements SearchView.OnQueryText
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_donation, container, false);
         foundationList = new ArrayList<>();
-        refreshList();
+        UserService.setGetUsersFromParam(this);
+        UserService.getUsersBy(Constans.USER_ROL_FOUNDATION, "rol");
         recyclerFoundations = view.findViewById(R.id.idRecyclerView);
         recyclerFoundations.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
         recyclerFoundations.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
@@ -77,6 +87,9 @@ public class DonationFragment extends Fragment implements SearchView.OnQueryText
 
                         String nam = foundationList.get(position).toString();
                         Toast.makeText(getContext(),""+ nam ,Toast.LENGTH_SHORT).show();
+
+                        Intent paymentActivity = new Intent(getActivity(), PaymentActivity.class);
+                        startActivity(paymentActivity);
 
                         return true;
                     }
@@ -100,20 +113,12 @@ public class DonationFragment extends Fragment implements SearchView.OnQueryText
 
         searchFoundation = view.findViewById(R.id.searchFoundation);
         searchFoundation.setOnQueryTextListener(this);
-
-        adapter = new FoundationAdapter(foundationList);
-        recyclerFoundations.setAdapter(adapter);
         return view;
     }
 
     private void refreshList(){
-        for (int i = 0; i < 5000; i++){
-            User u = new User();
-            u.setName("Nombre " + i);
-            u.setDescription("Esto es una des " + i);
-            foundationList.add(u);
-            System.out.println(u.toString());
-        }
+        adapter = new FoundationAdapter(foundationList);
+        recyclerFoundations.setAdapter(adapter);
     }
 
 
@@ -126,5 +131,11 @@ public class DonationFragment extends Fragment implements SearchView.OnQueryText
     public boolean onQueryTextChange(String newText) {
         adapter.filter(newText);
         return false;
+    }
+
+    @Override
+    public void getUsersFromParam(ArrayList<User> users) {
+        foundationList = users;
+        refreshList();
     }
 }

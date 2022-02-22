@@ -23,6 +23,7 @@ import com.artificialbyte.animaliano.dto.user.User;
 import com.artificialbyte.animaliano.interfaces.activity.ShowMessage;
 import com.artificialbyte.animaliano.interfaces.pet.AddPet;
 import com.artificialbyte.animaliano.interfaces.user.GetUserBy;
+import com.artificialbyte.animaliano.interfaces.user.GetUsersFromParam;
 import com.artificialbyte.animaliano.services.pet.PetService;
 import com.artificialbyte.animaliano.services.user.UserService;
 import com.droidbyme.dialoglib.DroidDialog;
@@ -202,4 +203,5 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     public void addPet(Pet pet) {
 
     }
+
 }

@@ -5,16 +5,22 @@ import androidx.core.content.ContextCompat;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.artificialbyte.animaliano.dto.user.User;
 import com.artificialbyte.animaliano.utils.Functions;
 import com.fevziomurtekin.payview.Payview;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -25,18 +31,28 @@ public class PaymentActivity extends AppCompatActivity {
     TextView lblFoundationName;
     CircleImageView imgFoundation;
     TextInputLayout txtOtherPrice;
-    LinearLayout layoutSetPrice;
+    LinearLayout layoutSetPrice, layoutUserData;
     Payview payview;
+    TextInputLayout cardName, cardNumber, cardMonth, cardYear, cardCVC;
+    TextView ownerCard;
+    Button btnPay;
+    AutoCompleteTextView documentType;
+
+    User foundation, user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
 
+        foundation = (User) getIntent().getSerializableExtra("Foundation");
+        user = (User) getIntent().getSerializableExtra("User");
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         layoutSetPrice = findViewById(R.id.layoutSetPrice);
+        layoutUserData = findViewById(R.id.layoutUserData);
 
         btnFirstPrice = findViewById(R.id.btnFirstPrice);
         btnFirstPrice.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +125,36 @@ public class PaymentActivity extends AppCompatActivity {
             }
         });
 
+        cardName = findViewById(R.id.til_card_name);
+        cardName.setHint("Nombre de la tarjeta");
+
+        cardNumber = findViewById(R.id.til_card_no);
+        cardNumber.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
+        cardNumber.setHint("Número de tarjeta");
+
+        cardMonth = findViewById(R.id.til_card_month);
+        cardMonth.setHint("Mes");
+
+        cardYear = findViewById(R.id.til_card_year);
+        cardYear.setHint("Año");
+
+        cardCVC = findViewById(R.id.til_card_cv);
+        cardCVC.setHint("CVC");
+
+        ownerCard = findViewById(R.id.tv_card_owner);
+        ownerCard.setText("Nombre Apellido");
+
+        btnPay = findViewById(R.id.btn_pay);
+        btnPay.setText("DONAR");
+
+        ArrayList<String> documentTypes = new ArrayList<String>(){{add("CC");add("CE");add("NIT");}};
+        documentType = findViewById(R.id.documentType);
+        documentType.setThreshold(3);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, documentTypes);
+        documentType.setAdapter(adapter);
+        documentType.setListSelection(0);
+        adapter.setNotifyOnChange(true);
+
     }
 
     @Override
@@ -119,8 +165,13 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
     public void changeLayoutPrice(View view){
-        layoutSetPrice.setVisibility(View.GONE);
+        layoutUserData.setVisibility(View.GONE);
         payview.setVisibility(View.VISIBLE);
+    }
+
+    public void changeLayoutInfo(View view){
+        layoutSetPrice.setVisibility(View.GONE);
+        layoutUserData.setVisibility(View.VISIBLE);
     }
 
     public void setCurrentButton(int btn){

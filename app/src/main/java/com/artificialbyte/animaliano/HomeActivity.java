@@ -50,6 +50,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     private String provider;
     SharedPreferences pref;
     private int optionItem = 0;
+    private User userInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,10 +140,12 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     public void getUserBy(User user) {
         if (user != null) {
             setTitle("Inicio");
+            userInfo = user;
             fragLoading.setVisibility(View.GONE);
             bottomNavigationView.setSelectedItemId(R.id.mainItem);
             bottomNavigationView.setVisibility(View.VISIBLE);
             profileFragment.setUser(user);
+            donationFragment.setUser(user);
             new DroidDialog.Builder(getWindow().getContext())
                     .icon(R.mipmap.logo)
                     .color(ContextCompat.getColor(getWindow().getContext(), R.color.text),
@@ -202,6 +205,10 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public void addPet(Pet pet) {
 
+    }
+
+    public User getUser(){
+        return userInfo;
     }
 
 }

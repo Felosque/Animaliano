@@ -41,6 +41,7 @@ public class DonationFragment extends Fragment implements SearchView.OnQueryText
     private ArrayList<User> foundationList;
     private RecyclerView recyclerFoundations;
     private FoundationAdapter adapter;
+    private User user;
 
     public DonationFragment() {
 
@@ -88,7 +89,10 @@ public class DonationFragment extends Fragment implements SearchView.OnQueryText
                         String nam = foundationList.get(position).toString();
                         Toast.makeText(getContext(),""+ nam ,Toast.LENGTH_SHORT).show();
 
+
                         Intent paymentActivity = new Intent(getActivity(), PaymentActivity.class);
+                        paymentActivity.putExtra("Foundation", foundationList.get(position));
+                        paymentActivity.putExtra("User", user);
                         startActivity(paymentActivity);
 
                         return true;
@@ -137,5 +141,9 @@ public class DonationFragment extends Fragment implements SearchView.OnQueryText
     public void getUsersFromParam(ArrayList<User> users) {
         foundationList = users;
         refreshList();
+    }
+
+    public void setUser(User pUser){
+        this.user = pUser;
     }
 }

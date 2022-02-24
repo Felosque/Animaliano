@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.artificialbyte.animaliano.dto.donation.Donation;
+import com.artificialbyte.animaliano.dto.user.User;
 import com.artificialbyte.animaliano.interfaces.donation.AddDonation;
 import com.artificialbyte.animaliano.services.donation.DonationService;
 
@@ -17,7 +18,7 @@ import co.epayco.android.util.EpaycoCallback;
 
 public class EpayService implements AddDonation {
 
-    public EpayService(@NotNull Transaction transaction) {
+    public EpayService(@NotNull Transaction transaction, User foundation, User user) {
 
         Authentication auth = new Authentication();
         auth.setApiKey("7be429ee3b358e7066be8c978cab72f4");
@@ -63,9 +64,10 @@ public class EpayService implements AddDonation {
                                 Donation donation = new Donation();
                                 donation.setRefPayco(data.getString("ref_payco"));
                                 donation.setFacture(data.getString("factura"));
-                                donation.setFoundationName("PRUEBAS FUNDACIÓN");
+                                donation.setFoundationName(foundation.getName());
+                                donation.setIdFoundation(foundation.getUid());
                                 donation.setMount(data.getString("valor"));
-                                donation.setUserid("unusuarioid");
+                                donation.setUserid(user.getUid());
                                 DonationService.addDonation(donation);
                             }
 

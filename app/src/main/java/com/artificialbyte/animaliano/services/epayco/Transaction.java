@@ -49,32 +49,34 @@ public class Transaction {
         Transaction transaction = new Transaction();
 
         Card card = new Card();
-        card.setNumber("4575623182290326");
-        card.setMonth("12");
-        card.setYear("2025");
-        card.setCvc("123");
+        card.setNumber("4575623182290326"); //Numero tarjeta
+        card.setMonth("12"); //Mes tarjeta
+        card.setYear("2025"); //Año tarjeta
+        card.setCvc("123"); //CVC Tarjeta
         transaction.setCard(card);
 
         Client client = new Client();
-        client.setName("Cliente epayco acepted");
-        client.setEmail("acepted@epayco.co");
-        client.setPhone("305274321");
+        client.setCustomer_id("mipropioid"); //Uid user
+        client.setName("Cliente epayco acepted"); //Nombre user
+        client.setEmail("acepted@epayco.co"); //Email user
+        client.setPhone("305274321"); //Numero user
         client.setDefaultCard(true);
         transaction.setClient(client);
 
         Charge charge = new Charge();
         charge.setDocType("CC");
-        charge.setDocNumber("1035851980");
-        charge.setName("Acepted");
+        charge.setDocNumber("1035851980"); //Documento usuario
+        charge.setName("Acepted"); //Nombre de usuario
         charge.setLastName("Card");
-        charge.setEmail("example@email.com");
-        charge.setInvoice("AC-1234");
-        charge.setDescription("Test Payment");
-        charge.setValue("116000");
-        charge.setTax("16000");
-        charge.setTaxBase("100000");
-        charge.setCurrency("COP");
-        charge.setDues("12");
+        charge.setEmail("example@email.com"); //Email user
+        charge.setInvoice("AC-1234");// UID
+        charge.setAddress("ADDRESS"); //Dirección de casa
+        charge.setDescription("Test Payment"); //Descripción de la donación
+        charge.setValue("116000"); //Valor base + IVA
+        charge.setTax("16000"); //Precio IVA
+        charge.setTaxBase("100000"); //Precio base
+        charge.setCurrency("COP"); //Moneda
+        charge.setDues("1"); //Numero de cuotas
         charge.setIp("190.000.000.000");
         transaction.setCharge(charge);
 

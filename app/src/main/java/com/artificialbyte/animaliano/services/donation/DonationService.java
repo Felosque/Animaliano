@@ -38,7 +38,7 @@ public class DonationService {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            //addDonation.addDonation(donation);
+                            addDonation.addDonation(donation);
                         } else {
                             showMessage.showMessage("No se pudo guardar la información");
                         }

@@ -7,6 +7,7 @@ import com.artificialbyte.animaliano.dto.donation.Donation;
 import com.artificialbyte.animaliano.dto.user.User;
 import com.artificialbyte.animaliano.interfaces.donation.AddDonation;
 import com.artificialbyte.animaliano.services.donation.DonationService;
+import com.artificialbyte.animaliano.utils.Functions;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -18,28 +19,9 @@ import co.epayco.android.util.EpaycoCallback;
 
 public class EpayService implements AddDonation {
 
-    public EpayService(@NotNull Transaction transaction, User foundation, User user) {
+    public static Epayco epayco = getEpayAuthentication();
 
-        Authentication auth = new Authentication();
-        auth.setApiKey("7be429ee3b358e7066be8c978cab72f4");
-        auth.setPrivateKey("c017cd60e58a395c472d4f1757263fa5");
-        auth.setLang("ES");
-        auth.setTest(true);
-
-        Epayco epayco  = new Epayco(auth);
-
-        epayco.getReferencePayment("74789714", new EpaycoCallback() {
-            @Override
-            public void onSuccess(JSONObject data) throws JSONException {
-                Log.d("sdadasd", "dataEpayco: " + data);
-           }
-
-            @Override
-           public void onError(Exception error) {
-                System.out.println("dataEpayco: " + error.getMessage());
-            }
-        });
-
+    public static void createTransaction(@NotNull Transaction transaction, User foundation, User user) {
 
         epayco.createToken(transaction.getCard(), new EpaycoCallback() {
             @Override
@@ -67,6 +49,7 @@ public class EpayService implements AddDonation {
                                 donation.setFoundationName(foundation.getName());
                                 donation.setIdFoundation(foundation.getUid());
                                 donation.setMount(data.getString("valor"));
+                                donation.setStatus(data.getString("estado"));
                                 donation.setUserid(user.getUid());
                                 DonationService.addDonation(donation);
                             }
@@ -88,7 +71,32 @@ public class EpayService implements AddDonation {
                 System.out.println("EERROOOOORRR HPTAAAAA: " + error);
             }
         });
+    }
 
+    public static void getTransactionReference(){
+        epayco.getReferencePayment("74789714", new EpaycoCallback() {
+            @Override
+            public void onSuccess(JSONObject data) throws JSONException {
+                Log.d("sdadasd", "dataEpayco: " + data);
+            }
+
+            @Override
+            public void onError(Exception error) {
+                System.out.println("dataEpayco: " + error.getMessage());
+            }
+        });
+    }
+
+    public static Epayco getEpayAuthentication(){
+        if(epayco == null) {
+            Authentication auth = new Authentication();
+            auth.setApiKey("7be429ee3b358e7066be8c978cab72f4");
+            auth.setPrivateKey("c017cd60e58a395c472d4f1757263fa5");
+            auth.setLang("ES");
+            auth.setTest(true);
+            epayco = new Epayco(auth);
+        }
+        return epayco;
     }
 
     @Override

@@ -69,7 +69,7 @@ public class Transaction {
         charge.setName("Acepted"); //Nombre de usuario
         charge.setLastName("Card");
         charge.setEmail("example@email.com"); //Email user
-        charge.setInvoice("AC-1234");// UID
+        //charge.setInvoice("AC-1234");// UID
         charge.setAddress("ADDRESS"); //Dirección de casa
         charge.setDescription("Test Payment"); //Descripción de la donación
         charge.setValue("116000"); //Valor base + IVA
@@ -107,7 +107,7 @@ public class Transaction {
         charge.setName("Not");
         charge.setLastName("Founds");
         charge.setEmail("example@email.com");
-        charge.setInvoice("NF-1234");
+        //charge.setInvoice("NF-1234");
         charge.setDescription("Test Payment");
         charge.setValue("116000");
         charge.setTax("16000");
@@ -168,8 +168,8 @@ public class Transaction {
 
         Client client = new Client();
         client.setCustomer_id("mipropioid");
-        client.setName("Cliente epayco Pending");
-        client.setEmail("pending@epayco.co");
+        client.setName("Cliente epayco Failed");
+        client.setEmail("failed@epayco.co");
         client.setPhone("305274321");
         client.setDefaultCard(true);
         transaction.setClient(client);
@@ -177,7 +177,7 @@ public class Transaction {
         Charge charge = new Charge();
         charge.setDocType("CC");
         charge.setDocNumber("1035851980");
-        charge.setName("Pending");
+        charge.setName("Failed");
         charge.setLastName("Card");
         charge.setEmail("example@email.com");
         charge.setDescription("Test Payment");

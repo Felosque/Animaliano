@@ -83,7 +83,10 @@ public class Donation {
         return "Donation{" +
                 "userid='" + userid + '\'' +
                 ", refPayco='" + refPayco + '\'' +
+                ", facture='" + facture + '\'' +
                 ", foundationName='" + foundationName + '\'' +
+                ", idFoundation='" + idFoundation + '\'' +
+                ", status='" + status + '\'' +
                 ", mount='" + mount + '\'' +
                 '}';
     }

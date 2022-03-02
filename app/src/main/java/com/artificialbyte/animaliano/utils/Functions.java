@@ -17,6 +17,9 @@ import java.net.SocketException;
 import java.text.DecimalFormat;
 import java.util.Enumeration;
 
+import co.epayco.android.Epayco;
+import co.epayco.android.models.Authentication;
+
 public class Functions {
 
     public static BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {

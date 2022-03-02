@@ -46,6 +46,8 @@ public class FoundationAdapter extends RecyclerView.Adapter<FoundationAdapter.Vi
         holder.description.setText(foundationList.get(position).getDescription());
         if (!foundationList.get(position).getProfilePhoto().isEmpty()) {
             Glide.with(view.getContext()).load(foundationList.get(position).getProfilePhoto()).into(holder.photo);
+        }else{
+            holder.photo.setImageResource(R.mipmap.logo);
         }
     }
 

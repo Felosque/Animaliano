@@ -12,4 +12,10 @@ public class Constans {
     public static final int EMAIL_REGISTER = 0;
     public static final int GOOGLE_REGISTER = 1;
     public static final int FACEBOOK_REGISTER = 2;
+
+    //Epay States
+    public static final String CARD_PENDING = "Pendiente";
+    public static final String CARD_ACCEPTED = "Aceptada";
+    public static final String CARD_NOT_FOUNDS = "Rechazada";
+    public static final String CARD_FAILED = "Fallida";
 }

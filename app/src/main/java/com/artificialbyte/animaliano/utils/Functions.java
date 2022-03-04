@@ -16,6 +16,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.text.DecimalFormat;
 import java.util.Enumeration;
+import java.util.regex.Pattern;
 
 import co.epayco.android.Epayco;
 import co.epayco.android.models.Authentication;
@@ -46,6 +47,19 @@ public class Functions {
             ex.printStackTrace();
         }
         return null;
+    }
+
+    public static boolean isValidEmail(String email)
+    {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null)
+            return false;
+        return pat.matcher(email).matches();
     }
 
     public static String decimalFormat(int number){

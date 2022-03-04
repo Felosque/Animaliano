@@ -58,8 +58,8 @@ public class Transaction {
         Client client = new Client();
         client.setCustomer_id("mipropioid"); //Uid user
         client.setName("Cliente epayco acepted"); //Nombre user
-        client.setEmail("acepted@epayco.co"); //Email user
-        client.setPhone("305274321"); //Numero user
+        client.setEmail("example@yopmail.com"); //Email user
+        client.setPhone("3052743215"); //Numero user
         client.setDefaultCard(true);
         transaction.setClient(client);
 
@@ -68,7 +68,7 @@ public class Transaction {
         charge.setDocNumber("1035851980"); //Documento usuario
         charge.setName("Acepted"); //Nombre de usuario
         charge.setLastName("Card");
-        charge.setEmail("example@email.com"); //Email user
+        charge.setEmail("example@yopmail.com"); //Email user
         //charge.setInvoice("AC-1234");// UID
         charge.setAddress("ADDRESS"); //Dirección de casa
         charge.setDescription("Test Payment"); //Descripción de la donación
@@ -190,5 +190,14 @@ public class Transaction {
         transaction.setCharge(charge);
 
         return transaction;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "card=" + card.toString() +
+                ", client=" + client.toString() +
+                ", charge=" + charge.toString() +
+                '}';
     }
 }

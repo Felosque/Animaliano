@@ -1,6 +1,7 @@
 package com.artificialbyte.animaliano;
 
 import static com.artificialbyte.animaliano.utils.Functions.decimalFormat;
+import static com.artificialbyte.animaliano.utils.Functions.isValidEmail;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -22,6 +23,7 @@ import com.airbnb.lottie.LottieDrawable;
 import com.artificialbyte.animaliano.dto.donation.Donation;
 import com.artificialbyte.animaliano.dto.user.User;
 import com.artificialbyte.animaliano.interfaces.donation.AddDonation;
+import com.artificialbyte.animaliano.interfaces.donation.TransactionError;
 import com.artificialbyte.animaliano.services.donation.DonationService;
 import com.artificialbyte.animaliano.services.epayco.EpayService;
 import com.artificialbyte.animaliano.services.epayco.Transaction;
@@ -29,6 +31,7 @@ import com.artificialbyte.animaliano.utils.Constans;
 import com.artificialbyte.animaliano.utils.Functions;
 import com.bumptech.glide.Glide;
 import com.fevziomurtekin.payview.Payview;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
@@ -39,7 +42,7 @@ import co.epayco.android.models.Client;
 import de.hdodenhof.circleimageview.CircleImageView;
 import pl.droidsonroids.gif.GifImageView;
 
-public class PaymentActivity extends AppCompatActivity implements AddDonation {
+public class PaymentActivity extends AppCompatActivity implements AddDonation, TransactionError {
 
 
     Button btnFirstPrice, btnSecondPrice, btnThirdPrice, btnOtherPrice, btnContinue;
@@ -53,6 +56,8 @@ public class PaymentActivity extends AppCompatActivity implements AddDonation {
     Button btnPay;
     AutoCompleteTextView documentType;
     LottieAnimationView imgResult;
+
+    TextInputEditText name, email, phone, document, address;
 
     User foundation, user;
 
@@ -137,34 +142,29 @@ public class PaymentActivity extends AppCompatActivity implements AddDonation {
 
         payview = findViewById(R.id.payview);
 
-        // on below line we are setting pay on listener for our card.
-        /*payview.setPayOnclickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createDonationWithData();
-                // after clicking on pay we are displaying toast message as card added.
-                //Toast.makeText(getApplicationContext(), "Card Added. ", Toast.LENGTH_SHORT).show();
-            }
-        });*/
-
         layoutResult = findViewById(R.id.layoutResult);
         textInfo = findViewById(R.id.textInfo);
 
         cardName = findViewById(R.id.til_card_name);
         cardName.setHint("Nombre de la tarjeta");
+        cardName.getEditText().setText("Felipe Felipe");
 
         cardNumber = findViewById(R.id.til_card_no);
-        cardNumber.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
+        //cardNumber.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
         cardNumber.setHint("Número de tarjeta");
+        cardNumber.getEditText().setText("4575623182290326");
 
         cardMonth = findViewById(R.id.til_card_month);
         cardMonth.setHint("Mes");
+        cardMonth.getEditText().setText("12");
 
         cardYear = findViewById(R.id.til_card_year);
         cardYear.setHint("Año");
+        cardYear.getEditText().setText("25");
 
         cardCVC = findViewById(R.id.til_card_cv);
         cardCVC.setHint("CVC");
+        cardCVC.getEditText().setText("123");
 
         ownerCard = findViewById(R.id.tv_card_owner);
         ownerCard.setText("Nombre Apellido");
@@ -177,6 +177,20 @@ public class PaymentActivity extends AppCompatActivity implements AddDonation {
                 createDonationWithData();
             }
         });
+
+        name = findViewById(R.id.name);
+        name.setText(user.getName() + " " + user.getLastName());
+
+        email = findViewById(R.id.email);
+        email.setText(user.getEmail());
+
+        phone = findViewById(R.id.phone);
+        phone.setText(user.getPhone());
+
+        document = findViewById(R.id.document);
+        document.setText(user.getNit());
+
+        address = findViewById(R.id.address);
 
         ArrayList<String> documentTypes = new ArrayList<String>(){{add("CC");add("CE");add("NIT");}};
         documentType = findViewById(R.id.documentType);
@@ -197,6 +211,17 @@ public class PaymentActivity extends AppCompatActivity implements AddDonation {
     }
 
     public void changeLayoutPrice(View view){
+        if (name.getText().toString().isEmpty() || email.getText().toString().isEmpty() ||
+            phone.getText().toString().isEmpty() || document.getText().toString().isEmpty()
+            || address.getText().toString().isEmpty()){
+            Toast.makeText(this, "Nungun campo puede estar vacio", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!isValidEmail(email.getText().toString())){
+            Toast.makeText(this, "Debe tener un email valido.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         layoutUserData.setVisibility(View.GONE);
         payview.setVisibility(View.VISIBLE);
     }
@@ -222,6 +247,7 @@ public class PaymentActivity extends AppCompatActivity implements AddDonation {
     public void createDonationWithData(){
         payview.setVisibility(View.GONE);
         layoutResult.setVisibility(View.VISIBLE);
+        EpayService.setTransactionError(this);
         EpayService.createTransaction(createTransaction(), foundation, user);
     }
 
@@ -230,24 +256,25 @@ public class PaymentActivity extends AppCompatActivity implements AddDonation {
         transaction.setCard(getCard());
         transaction.setClient(getClient());
         transaction.setCharge(getCharge());
-        return Transaction.getNotFoundsCard();
+        System.out.println("ESTACOSA: "+ transaction.toString());
+        return transaction;
     }
 
     public Card getCard(){
         Card card = new Card();
-        card.setNumber("4575623182290326"); //Numero tarjeta
-        card.setMonth("12"); //Mes tarjeta
-        card.setYear("2025"); //Año tarjeta
-        card.setCvc("123"); //CVC Tarjeta
+        card.setNumber(cardNumber.getEditText().getText().toString().replace(" ", "").trim()); //Numero tarjeta
+        card.setMonth(cardMonth.getEditText().getText().toString()); //Mes tarjeta
+        card.setYear("20"+cardYear.getEditText().getText().toString()); //Año tarjeta
+        card.setCvc(cardCVC.getEditText().getText().toString()); //CVC Tarjeta
         return card;
     }
 
     public Client getClient(){
         Client client = new Client();
         client.setCustomer_id(user.getUid()); //Uid user
-        client.setName(user.getName()); //Nombre user
-        client.setEmail(user.getEmail()); //Email user
-        client.setPhone("305274321"); //Numero user
+        client.setName(name.getText().toString()); //Nombre user
+        client.setEmail(email.getText().toString()); //Email user
+        client.setPhone(phone.getText().toString()); //Numero user
         client.setDefaultCard(true);
         return client;
     }
@@ -256,13 +283,13 @@ public class PaymentActivity extends AppCompatActivity implements AddDonation {
         String chargeValue = String.valueOf(getAmountDonation());
         Charge charge = new Charge();
 
-        charge.setDocType("CC");
-        charge.setDocNumber(user.getNit()); //Documento usuario
-        charge.setName(user.getName()); //Nombre de usuario
+        charge.setDocType(documentType.getText().toString());
+        charge.setDocNumber(document.getText().toString()); //Documento usuario
+        charge.setName(name.getText().toString()); //Nombre de usuario
         charge.setLastName(user.getLastName());
-        charge.setAddress("ADDRESS"); //Dirección de casa
+        charge.setAddress(address.getText().toString()); //Dirección de casa
 
-        charge.setEmail(user.getEmail()); //Email user
+        charge.setEmail(email.getText().toString()); //Email user
         charge.setInvoice(user.getUid());// UID
         charge.setDescription("PAGO A FUNDACIÓN LLAMADA: " + foundation.getName()); //Descripción de la donación
         charge.setValue(chargeValue); //Valor base + IVA
@@ -349,5 +376,13 @@ public class PaymentActivity extends AppCompatActivity implements AddDonation {
         }
         imgResult.playAnimation();
 
+    }
+
+    @Override
+    public void triggerError() {
+        imgResult.setRepeatCount(0);
+        imgResult.setAnimation(R.raw.check_error);
+        imgResult.playAnimation();
+        textInfo.setText("UPS! AL PARECER HA OCURRIDO UN ERROR, INTENTALO NUEVAMENTE MÁS TARDE.");
     }
 }

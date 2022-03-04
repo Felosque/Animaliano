@@ -6,6 +6,7 @@ import android.util.Log;
 import com.artificialbyte.animaliano.dto.donation.Donation;
 import com.artificialbyte.animaliano.dto.user.User;
 import com.artificialbyte.animaliano.interfaces.donation.AddDonation;
+import com.artificialbyte.animaliano.interfaces.donation.TransactionError;
 import com.artificialbyte.animaliano.services.donation.DonationService;
 import com.artificialbyte.animaliano.utils.Functions;
 
@@ -18,6 +19,12 @@ import co.epayco.android.models.Authentication;
 import co.epayco.android.util.EpaycoCallback;
 
 public class EpayService implements AddDonation {
+
+    private static TransactionError transactionError;
+
+    public static void setTransactionError(TransactionError transactionError) {
+        EpayService.transactionError = transactionError;
+    }
 
     public static Epayco epayco = getEpayAuthentication();
 
@@ -34,7 +41,6 @@ public class EpayService implements AddDonation {
                     public void onSuccess(JSONObject data) throws JSONException {
                         Log.d("d", data.toString());
 
-
                         transaction.getCharge().setTokenCard(transaction.getClient().getTokenId());
                         transaction.getCharge().setCustomerId(data.getString("customerId"));
 
@@ -42,7 +48,12 @@ public class EpayService implements AddDonation {
 
                             @Override
                             public void onSuccess(JSONObject data) throws JSONException {
-                                Log.d("d", data.toString());
+                                Log.d("Entra al Metodo", data.toString());
+                                if (data.toString().contains("\"status\":\"error\"")){
+                                    transactionError.triggerError();
+                                    return;
+                                }
+
                                 Donation donation = new Donation();
                                 donation.setRefPayco(data.getString("ref_payco"));
                                 donation.setFacture(data.getString("factura"));
@@ -55,20 +66,22 @@ public class EpayService implements AddDonation {
                             }
 
                             @Override
-                            public void onError(Exception error) { Log.d("d", error.toString()); }
+                            public void onError(Exception error) {
+                                transactionError.triggerError();
+                            }
                         });
 
                     }
                     @Override
-                    public void onError(Exception error) {Log.d("d", error.toString());}
-
+                    public void onError(Exception error) {
+                        transactionError.triggerError();
+                    }
                 });
 
             }
-
             @Override
             public void onError(Exception error) {
-                System.out.println("EERROOOOORRR HPTAAAAA: " + error);
+                transactionError.triggerError();
             }
         });
     }

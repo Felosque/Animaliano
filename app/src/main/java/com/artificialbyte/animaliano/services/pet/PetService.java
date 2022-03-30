@@ -9,12 +9,15 @@ import com.artificialbyte.animaliano.dto.user.User;
 import com.artificialbyte.animaliano.interfaces.activity.ShowMessage;
 import com.artificialbyte.animaliano.interfaces.pet.AddPet;
 import com.artificialbyte.animaliano.interfaces.pet.GetPetBy;
+import com.artificialbyte.animaliano.interfaces.pet.GetPetsFromParam;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
+
+import java.util.ArrayList;
 
 public class PetService {
 
@@ -24,6 +27,7 @@ public class PetService {
 
 
     private static GetPetBy getPetBy;
+    private static GetPetsFromParam getPetsFromParam;
     private static AddPet addPet;
     private static ShowMessage showMessage;
 
@@ -37,6 +41,10 @@ public class PetService {
 
     public static void setAddPet(AddPet addPet) {
         PetService.addPet = addPet;
+    }
+
+    public static void setGetPetsFromParam(GetPetsFromParam getPetsFromParam) {
+        PetService.getPetsFromParam = getPetsFromParam;
     }
 
     public PetService(Context context) {
@@ -81,6 +89,30 @@ public class PetService {
                         }
                     }
                 });
+    }
+
+    public static void getPetsBy(String name, String param){
+        try {
+            db.collection("Pets")
+                    .whereEqualTo(param, name)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                ArrayList<Pet> pets = new ArrayList<>();
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    pets.add(document.toObject(Pet.class));
+                                }
+                                getPetsFromParam.getPetsFromParam(pets);
+                            } else {
+                                showMessage.showMessage("¡Ups! No se ha encontrado ninguna fundación");
+                            }
+                        }
+                    });
+        }catch (Exception e){
+
+        }
     }
 
 }

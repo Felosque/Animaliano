@@ -9,6 +9,7 @@
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/activity_payment.xml" value="0.25" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/activity_pet_view.xml" value="0.25" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/activity_pet_view_fragment.xml" value="0.13229166666666667" />
+        <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/fragment_adoption.xml" value="0.26875" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/fragment_alert.xml" value="0.2" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/fragment_donation.xml" value="0.25" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/fragment_index.xml" value="0.26875" />
@@ -21,6 +22,7 @@
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/fragment_register_step5.xml" value="0.26875" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/image_slider_item.xml" value="0.13229166666666667" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/item_list.xml" value="0.26875" />
+        <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/item_list_adoption.xml" value="0.25" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/item_list_foundation.xml" value="0.26875" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/recycler_view_item.xml" value="0.26875" />
       </map>

@@ -1,6 +1,8 @@
 package com.artificialbyte.animaliano.dto.pet;
 
-public class Vaccination {
+import java.io.Serializable;
+
+public class Vaccination implements Serializable {
 
     private String name;
     private String date;
@@ -8,6 +10,9 @@ public class Vaccination {
     public Vaccination(String name, String date) {
         this.name = name;
         this.date = date;
+    }
+
+    public Vaccination() {
     }
 
     public String getName() {

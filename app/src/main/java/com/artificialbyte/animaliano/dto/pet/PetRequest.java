@@ -1,6 +1,8 @@
 package com.artificialbyte.animaliano.dto.pet;
 
-public class PetRequest {
+import java.io.Serializable;
+
+public class PetRequest  implements Serializable {
 
     private String uid;
     private String uidUser;
@@ -14,6 +16,9 @@ public class PetRequest {
         this.fullName = fullName;
         this.contactPhone = contactPhone;
         this.description = description;
+    }
+
+    public PetRequest() {
     }
 
     public String getUid() {

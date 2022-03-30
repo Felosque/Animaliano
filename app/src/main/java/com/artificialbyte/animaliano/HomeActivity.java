@@ -166,8 +166,11 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                     .show();
 
             ArrayList<String> photos = new ArrayList<>();
-            ArrayList<Vaccination> vacunas= new ArrayList<>();
+            photos.add("https://t2.uc.ltmcdn.com/es/posts/9/5/5/10_cosas_que_los_perros_pueden_predecir_te_sorprenderas_43559_600.jpg");
+            ArrayList<Vaccination> vacunas = new ArrayList<>();
+            vacunas.add(new Vaccination("Rabia", "10-12-2022"));
             ArrayList<PetRequest> request = new ArrayList<>();
+            request.add(new PetRequest("prueba", "prueba", "Perro", "31231323", "Quiero ese perrito"));
             Pet pet = new Pet();
             pet.setPetRequests(request);
             pet.setPhotos(photos);
@@ -178,6 +181,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             pet.setDescription("example");
             pet.setOwner("example owner");
             pet.setBirthDate("10-10-2021");
+            pet.setName("Lupita");
+            pet.setAvailable("AVAILABLE");
             //PetService.setAddPet(this);
             //PetService.addPet(pet);
 

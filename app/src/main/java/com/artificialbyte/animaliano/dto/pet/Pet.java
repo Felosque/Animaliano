@@ -1,24 +1,29 @@
 package com.artificialbyte.animaliano.dto.pet;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class Pet {
+public class Pet implements Serializable {
 
     private String uid;
     private String uidFoundation;
     private String description;
     private String owner;
+    private String name;
+    private String available;
     private ArrayList<String> photos;
     private String birthDate;
     private ArrayList<Vaccination> vaccinationSchedule;
     private ArrayList<PetRequest> petRequests;
 
-    public Pet(String uid, String uidFoundation, String description, String owner, ArrayList<String> photos, String birthDate, ArrayList<Vaccination> vaccinationSchedule, ArrayList<PetRequest> petRequests) {
+    public Pet(String uid, String uidFoundation, String description, String owner, String name, String available, ArrayList<String> photos, String birthDate, ArrayList<Vaccination> vaccinationSchedule, ArrayList<PetRequest> petRequests) {
         this.uid = uid;
         this.uidFoundation = uidFoundation;
         this.description = description;
         this.owner = owner;
+        this.name = name;
+        this.available = available;
         this.photos = photos;
         this.birthDate = birthDate;
         this.vaccinationSchedule = vaccinationSchedule;
@@ -90,5 +95,21 @@ public class Pet {
 
     public void setPetRequests(ArrayList<PetRequest> petRequests) {
         this.petRequests = petRequests;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(String available) {
+        this.available = available;
     }
 }

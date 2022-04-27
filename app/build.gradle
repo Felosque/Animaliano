@@ -43,7 +43,10 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:19.2.0'
     implementation 'com.google.firebase:firebase-firestore:23.0.2'
     implementation 'de.hdodenhof:circleimageview:2.1.0'
+
     implementation 'com.google.firebase:firebase-storage:20.0.0'
+    implementation 'com.firebaseui:firebase-ui-storage:8.0.1'
+
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.1'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
@@ -53,8 +56,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation 'com.airbnb.android:lottie:5.0.2'
-    implementation 'com.github.bumptech.glide:glide:4.7.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+    implementation 'com.github.bumptech.glide:glide:4.13.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.1'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.22'
     implementation platform('com.google.firebase:firebase-bom:28.2.0')
     implementation 'com.google.firebase:firebase-auth'
@@ -63,7 +66,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
 
 
-    implementation 'com.github.fevziomurtekin:PayView:1.0.3'
+        implementation 'com.github.fevziomurtekin:PayView:1.0.3'
 
     implementation 'com.github.epayco:epayco-android:18c3e368dc'
     implementation "androidx.recyclerview:recyclerview:1.2.1"

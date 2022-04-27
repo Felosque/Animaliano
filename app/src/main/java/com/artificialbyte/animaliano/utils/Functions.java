@@ -15,6 +15,8 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Enumeration;
 import java.util.regex.Pattern;
 
@@ -65,6 +67,16 @@ public class Functions {
     public static String decimalFormat(int number){
         DecimalFormat format = new DecimalFormat("###,###.##");
         return format.format(number).toString();
+    }
+
+    public static String getDateNow(){
+        DateTimeFormatter dtf = null;
+        String fecha = "SIN_FECHA";
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            fecha = "" + dtf.format(LocalDateTime.now());
+        }
+        return fecha;
     }
 
 }

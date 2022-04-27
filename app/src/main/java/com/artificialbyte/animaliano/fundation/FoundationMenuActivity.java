@@ -2,11 +2,15 @@ package com.artificialbyte.animaliano.fundation;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
+import com.artificialbyte.animaliano.AddPet;
+import com.artificialbyte.animaliano.PaymentActivity;
 import com.artificialbyte.animaliano.R;
 import com.artificialbyte.animaliano.dto.user.User;
 import com.bumptech.glide.Glide;
@@ -52,6 +56,12 @@ public class FoundationMenuActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void addPet(View view){
+        Intent paymentActivity = new Intent(getApplicationContext(), AddPet.class);
+        paymentActivity.putExtra("Foundation", user);
+        startActivity(paymentActivity);
     }
 
 }

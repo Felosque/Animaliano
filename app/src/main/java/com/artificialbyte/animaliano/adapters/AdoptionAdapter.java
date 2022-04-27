@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.artificialbyte.animaliano.R;
 import com.artificialbyte.animaliano.dto.pet.Pet;
 import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,11 +43,14 @@ public class AdoptionAdapter extends RecyclerView.Adapter<AdoptionAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderAdoption holder, int position) {
-        holder.name.setText(foundationList.get(position).getName());
-        holder.description.setText(foundationList.get(position).getDescription());
-        holder.date.setText(foundationList.get(position).getBirthDate());
-        if (!foundationList.get(position).getPhotos().isEmpty()) {
-            Glide.with(view.getContext()).load(foundationList.get(position).getPhotos().get(0)).into(holder.photo);
+        Pet pet = foundationList.get(position);
+        holder.name.setText(pet.getName());
+        holder.description.setText(pet.getDescription());
+        holder.date.setText(pet.getBirthDate());
+        if (!pet.getPhotos().isEmpty()) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("photoPet").child(pet.getUid()+".jpg");
+            System.out.println("" +storageReference.getPath());
+            Glide.with(view.getContext()).load(storageReference).into(holder.photo);
         }else{
             holder.photo.setImageResource(R.mipmap.logo);
         }

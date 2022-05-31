@@ -7,9 +7,8 @@
     android:orientation="vertical"
     tools:context=".PetViewActivity">
 
-
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/petInfo"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="9"
@@ -24,10 +23,21 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="INFORMACIÓN DE ADOPCIÓN"
+                    android:textColor="@color/text"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:textAlignment="center"/>
+
                 <com.smarteist.autoimageslider.SliderView
                     android:id="@+id/slider"
+                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="200dp"
                     app:sliderAnimationDuration="600"
                     app:sliderAutoCycleDirection="back_and_forth"
                     app:sliderIndicatorAnimationDuration="600"
@@ -51,6 +61,7 @@
                     android:textColorHint="@color/text">
 
                     <EditText
+                        android:id="@+id/txtPetName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#00FFFFFF"
@@ -72,6 +83,29 @@
                     android:textColorHint="@color/text">
 
                     <EditText
+                        android:id="@+id/txtDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#00FFFFFF"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/text"
+                        android:enabled="false"
+                        android:ems="10"
+                        android:textSize="20dp"
+                        android:text="Es una perrita bla bla bla"
+                        android:hint="Descripción"
+                        android:inputType="textMultiLine" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:textColorHint="@color/text">
+
+                    <EditText
+                        android:id="@+id/txtVaccination"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#00FFFFFF"
@@ -85,13 +119,156 @@
                         android:inputType="textMultiLine" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:textColorHint="@color/text">
+
+                    <EditText
+                        android:id="@+id/txtDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#00FFFFFF"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/text"
+                        android:enabled="false"
+                        android:ems="10"
+                        android:textSize="20dp"
+                        android:text="1/20/2022"
+                        android:hint="Fecha de publicación"
+                        android:inputType="textMultiLine" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:textColorHint="@color/text">
+
+                    <EditText
+                        android:id="@+id/txtFoundation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#00FFFFFF"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/text"
+                        android:enabled="false"
+                        android:ems="10"
+                        android:textSize="20dp"
+                        android:text="Animaliano"
+                        android:hint="Fundación encargada"
+                        android:inputType="textMultiLine" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
 
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/petRequest"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:layout_weight="9">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="FORMULARIO DE PETICIÓN"
+                    android:textAlignment="center"
+                    android:textColor="@color/text"
+                    android:textSize="25dp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="¡Estás a un solo paso de hacer feliz a un animalito! Ahora solo tienes que llenar este sencillo formulario y esperar a que la fundación se contacte contigo."
+                    android:textColor="@color/text"
+                    android:layout_margin="15dp"
+                    android:textSize="15dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:textColorHint="@color/text">
+
+                    <EditText
+                        android:id="@+id/txtFullNameRequest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#00FFFFFF"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/text"
+                        android:ems="10"
+                        android:textSize="20dp"
+                        android:text=""
+                        android:hint="Nombre completo"
+                        android:inputType="textMultiLine" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:textColorHint="@color/text">
+
+                    <EditText
+                        android:id="@+id/txtPhoneRequest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#00FFFFFF"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/text"
+                        android:ems="10"
+                        android:textSize="20dp"
+                        android:text=""
+                        android:hint="Télefono de contacto"
+                        android:inputType="number" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:textColorHint="@color/text">
+
+                    <EditText
+                        android:id="@+id/txtDescriptionRequest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#00FFFFFF"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/text"
+                        android:ems="10"
+                        android:textSize="20dp"
+                        android:text=""
+                        android:hint="¿Por qué quieres adoptarlo?"
+                        android:inputType="textMultiLine" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/line"
+        android:id="@+id/btnRequest"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -105,12 +282,12 @@
             android:layout_gravity="bottom"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
+            android:onClick="sendRequest"
             android:gravity="center"
             android:text="ENVIAR PETICIÓN DE ADOPCIÓN"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

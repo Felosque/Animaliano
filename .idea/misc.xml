@@ -5,10 +5,11 @@
       <map>
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/drawable/ic_baseline_local_atm_24.xml" value="0.17864583333333334" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/activity_add_pet.xml" value="0.22" />
+        <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/activity_delete_pet.xml" value="0.26875" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/activity_fundation_menu.xml" value="0.17" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/activity_home.xml" value="0.26875" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/activity_payment.xml" value="0.25" />
-        <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/activity_pet_view.xml" value="0.25" />
+        <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/activity_pet_view.xml" value="0.21851851851851853" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/activity_pet_view_fragment.xml" value="0.13229166666666667" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/fragment_adoption.xml" value="0.26875" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/fragment_alert.xml" value="0.2" />
@@ -25,6 +26,7 @@
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/image_slider_item.xml" value="0.13229166666666667" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/item_list.xml" value="0.26875" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/item_list_adoption.xml" value="0.25" />
+        <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/item_list_delete_pet.xml" value="0.25" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/item_list_foundation.xml" value="0.26875" />
         <entry key="..\:/Users/felip/StudioProjects/Animaliano/app/src/main/res/layout/recycler_view_item.xml" value="0.26875" />
       </map>

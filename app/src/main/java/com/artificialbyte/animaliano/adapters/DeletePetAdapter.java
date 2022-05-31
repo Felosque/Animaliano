@@ -4,7 +4,6 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,31 +17,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AdoptionAdapter extends RecyclerView.Adapter<AdoptionAdapter.ViewHolderAdoption> {
+import de.hdodenhof.circleimageview.CircleImageView;
 
-    private ArrayList<Pet> foundationList;
+public class DeletePetAdapter extends RecyclerView.Adapter<DeletePetAdapter.ViewHolderAdoption>{
+
+    private ArrayList<Pet> petsList;
     private ArrayList<Pet> originalItems;
     private View view;
 
-    public AdoptionAdapter(ArrayList<Pet> foundationList) {
-        this.foundationList = foundationList;
+    public DeletePetAdapter(ArrayList<Pet> foundationList) {
+        this.petsList = foundationList;
         this.originalItems = new ArrayList<>();
         originalItems.addAll(foundationList);
     }
 
     @NonNull
     @Override
-    public ViewHolderAdoption onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_adoption, null, false);
-        return new AdoptionAdapter.ViewHolderAdoption(view);
+    public DeletePetAdapter.ViewHolderAdoption onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_delete_pet, null, false);
+        return new DeletePetAdapter.ViewHolderAdoption(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolderAdoption holder, int position) {
-        Pet pet = foundationList.get(position);
+    public void onBindViewHolder(@NonNull DeletePetAdapter.ViewHolderAdoption holder, int position) {
+        Pet pet = petsList.get(position);
         holder.name.setText(pet.getName());
         holder.description.setText(pet.getDescription());
-        holder.date.setText(pet.getBirthDate());
         if (!pet.getPhotos().isEmpty()) {
             Glide.with(view.getContext()).load(pet.getPhotos().get(0)).into(holder.photo);
         }else{
@@ -52,26 +52,26 @@ public class AdoptionAdapter extends RecyclerView.Adapter<AdoptionAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return foundationList.size();
+        return petsList.size();
     }
 
     public void filter(String strSearch){
         if (strSearch.length() == 0){
-            foundationList.clear();
-            foundationList.addAll(originalItems);
+            petsList.clear();
+            petsList.addAll(originalItems);
         }
         else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                List<Pet> collect = foundationList.stream().filter(i -> i.getName().toLowerCase().contains(strSearch.toLowerCase()))
+                List<Pet> collect = petsList.stream().filter(i -> i.getName().toLowerCase().contains(strSearch.toLowerCase()))
                         .collect(Collectors.toList());
-                foundationList.clear();
-                foundationList.addAll(collect);
+                petsList.clear();
+                petsList.addAll(collect);
             }
             else {
-                foundationList.clear();
+                petsList.clear();
                 for (Pet pets: originalItems) {
                     if (pets.getOwner().toLowerCase().contains(strSearch.toLowerCase())){
-                        foundationList.add(pets);
+                        petsList.add(pets);
                     }
                 }
             }
@@ -81,15 +81,14 @@ public class AdoptionAdapter extends RecyclerView.Adapter<AdoptionAdapter.ViewHo
 
     public class ViewHolderAdoption extends RecyclerView.ViewHolder {
 
-        TextView name, date, description;
-        ImageView photo;
+        TextView name, description;
+        CircleImageView photo;
 
         public ViewHolderAdoption(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.idName);
-            date = itemView.findViewById(R.id.idTime);
-            description = itemView.findViewById(R.id.adopDescription);
-            photo = itemView.findViewById(R.id.adopImage);
+            description = itemView.findViewById(R.id.idDescription);
+            photo = itemView.findViewById(R.id.idImagen);
         }
     }
 

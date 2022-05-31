@@ -10,6 +10,7 @@ import com.artificialbyte.animaliano.dto.pet.Pet;
 import com.artificialbyte.animaliano.dto.user.User;
 import com.artificialbyte.animaliano.interfaces.activity.ShowMessage;
 import com.artificialbyte.animaliano.interfaces.pet.AddPet;
+import com.artificialbyte.animaliano.interfaces.pet.DeletePet;
 import com.artificialbyte.animaliano.interfaces.pet.GetPetBy;
 import com.artificialbyte.animaliano.interfaces.pet.GetPetsFromParam;
 import com.artificialbyte.animaliano.interfaces.pet.PetImageUpload;
@@ -41,9 +42,14 @@ public class PetService {
     private static GetPetsFromParam getPetsFromParam;
     private static AddPet addPet;
     private static ShowMessage showMessage;
+    private static DeletePet deletePet;
 
     public static void setPetImageUpload(PetImageUpload petImageUpload) {
         PetService.petImageUpload = petImageUpload;
+    }
+
+    public static void setDeletePet(DeletePet deletePet) {
+        PetService.deletePet = deletePet;
     }
 
     public static void setGetPetBy(GetPetBy getPetBy) {
@@ -63,6 +69,23 @@ public class PetService {
     }
 
     public PetService(Context context) {
+    }
+
+    public static void deletePet(Pet pet){
+        db.collection("Pets").document(pet.getUid())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        deletePet.deletePet(true);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        deletePet.deletePet(false);
+                    }
+                });
     }
 
     public static void addPet(Pet pet){
@@ -113,7 +136,7 @@ public class PetService {
                     String refImage = url.toString();
                     ArrayList<String> photos = new ArrayList<>();
                     photos.add(refImage);
-                    userReference.update("profilePhoto", photos)
+                    userReference.update("photos", photos)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {

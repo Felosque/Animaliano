@@ -136,6 +136,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="500px"
                 android:onClick="openGallery"
+                app:srcCompat="@drawable/ic_baseline_image_24"
                 tools:srcCompat="@drawable/ic_baseline_image_24" />
 
             <Button
@@ -155,6 +156,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:background="@drawable/button_border"
             android:onClick="createPet"
             android:text="Añadir Mascota"

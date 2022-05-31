@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.artificialbyte.animaliano.AddPet;
-import com.artificialbyte.animaliano.PaymentActivity;
 import com.artificialbyte.animaliano.R;
 import com.artificialbyte.animaliano.dto.user.User;
 import com.bumptech.glide.Glide;
@@ -62,6 +61,12 @@ public class FoundationMenuActivity extends AppCompatActivity {
         Intent paymentActivity = new Intent(getApplicationContext(), AddPet.class);
         paymentActivity.putExtra("Foundation", user);
         startActivity(paymentActivity);
+    }
+
+    public void deletePet(View view){
+        Intent deleteActivity = new Intent(getApplicationContext(), DeletePetActivity.class);
+        deleteActivity.putExtra("user", user);
+        startActivity(deleteActivity);
     }
 
 }

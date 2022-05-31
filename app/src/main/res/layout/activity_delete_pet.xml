@@ -4,23 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DonationFragment">
+    tools:context=".fundation.DeletePetActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/donations"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ELIMINAR MASCOTA"
+            android:textAlignment="center"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            android:textSize="30dp"/>
+
         <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchFoundation"
+            android:layout_marginTop="10dp"
+            android:id="@+id/searchPet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:iconifiedByDefault="false"
-            app:queryHint="Buscar fundación" />
+            app:queryHint="Buscar mascota" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/idRecyclerView"
+            android:id="@+id/recyclerPets"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp">
@@ -29,23 +38,5 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/donations"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0dp"
-        android:layout_weight="0">
-
-        <Button
-            android:id="@+id/btnViewDonations"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:onClick="btnAdminFoundation_click"
-            android:text="Ver mis donaciones" />
-
-    </LinearLayout>
 
 </RelativeLayout>

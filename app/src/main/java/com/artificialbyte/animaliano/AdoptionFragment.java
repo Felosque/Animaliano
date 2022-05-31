@@ -86,12 +86,10 @@ public class AdoptionFragment extends Fragment implements SearchView.OnQueryText
                         String nam = foundationList.get(position).toString();
                         Toast.makeText(getContext(),""+ nam ,Toast.LENGTH_SHORT).show();
 
-
-                        /*Intent paymentActivity = new Intent(getActivity(), PaymentActivity.class);
-                        paymentActivity.putExtra("Foundation", foundationList.get(position));
+                        Intent paymentActivity = new Intent(getActivity(), PetViewActivity.class);
+                        paymentActivity.putExtra("Pet", foundationList.get(position));
                         paymentActivity.putExtra("User", user);
-                        startActivity(paymentActivity);*/
-
+                        startActivity(paymentActivity);
                         return true;
                     }
                 }catch (Exception ex){

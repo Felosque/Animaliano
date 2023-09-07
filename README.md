@@ -5,4 +5,11 @@ El propósito general del presente proyecto es construir una aplicación móvil 
 Desarrollar una aplicación móvil para la gestión de animales en adopción y donaciones a fundaciones de animales.
 
 # Adopción de animales
-![Imagen de WhatsAp2p 2023-09-07 a las 12 38 08](https://github.com/Felosque/Animaliano/assets/26034790/68fcc52a-a570-41e6-b63b-dd28528a04b7)
+![Adopción de animales](https://github.com/Felosque/Animaliano/assets/26034790/68fcc52a-a570-41e6-b63b-dd28528a04b7)
+
+# Donación a fundaciones
+![Donación de dinero](https://github.com/Felosque/Animaliano/assets/26034790/b62e8dd6-9dca-4c74-ad76-5f5cdd5c9b7d)
+
+# Gestión de animales
+![Gestión de animales](https://github.com/Felosque/Animaliano/assets/26034790/27e247ac-d5fd-4e73-a3d7-05fcf5f5015b)
+
